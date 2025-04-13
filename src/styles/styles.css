@@ -16,7 +16,7 @@ body {
 }
 
 header {
-  background-color: lightskyblue;
+  background-color: #222831;
 }
 
 .main-header {
@@ -33,14 +33,14 @@ header {
   font-size: 1.125rem;
   font-weight: bold;
   text-decoration: none;
-  color: #333;
+  color: #eeeeee;
 }
 
 .navigation-drawer {
   min-height: 100vh;
   width: 200px;
   padding: 20px 10px;
-  background-color: #fff;
+  background-color: #eeeeee;
 
   position: fixed;
   inset-block-start: 0;
@@ -67,7 +67,7 @@ header {
 
   font-weight: bold;
   font-size: 28px;
-  color: #141e16;
+  color: #eeeeee;
 
   cursor: pointer;
 }
@@ -85,7 +85,7 @@ header {
 
   display: block;
   
-  color: #333;
+  color: #222831;
   text-decoration: none;
 }
 
@@ -121,6 +121,7 @@ header {
 
   .nav-list li a {
     display: inline-block;
+    color: #eeeeee;
   }
 
   .drawer-button {
