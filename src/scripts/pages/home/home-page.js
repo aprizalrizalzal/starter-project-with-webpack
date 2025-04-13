@@ -2,7 +2,7 @@ export default class HomePage {
   async render() {
     return `
       <section class="container">
-        <h1>Home Page</h1>
+        <h1>Dicoding Story</h1>
       </section>
     `;
   }

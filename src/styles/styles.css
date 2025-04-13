@@ -1,3 +1,5 @@
+/* https://colorhunt.co/palette/222831393e4600adb5eeeeee */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +8,7 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .container {
@@ -84,7 +86,7 @@ header {
   padding: 6px 10px;
 
   display: block;
-  
+
   color: #222831;
   text-decoration: none;
 }
@@ -96,6 +98,98 @@ header {
 /* MAIN */
 .main-content {
   padding-block: 20px;
+}
+
+/* REGISTER LOGIN */
+.register,
+.login {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  color: #222831;
+}
+
+.register-form,
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #393e46;
+}
+
+.form-input input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #eeeeee;
+}
+
+.form-input input:focus {
+  border-color: #222831;
+  box-shadow: 0 0 0 3px rgba(34, 40, 49, 0.15);
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #222831;
+  color: #eeeeee;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #393e46;
+}
+
+.already-have-account,
+.do-not-have-account {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #222831;
+}
+
+.already-have-account a,
+.do-not-have-account a {
+  color: #00adb5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.already-have-account a:hover,
+.do-not-have-account a:hover {
+  text-decoration: underline;
 }
 
 /* Write your styles more here */
