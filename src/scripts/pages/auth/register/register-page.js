@@ -15,21 +15,21 @@ export default class RegisterPage {
               <label for="name-input" class="name">Nama</label>
 
               <div class="form-input">
-                <input id="name-input" type="text" name="name" placeholder="Nama lengkap">
+                <input id="name-input" type="text" name="name" autocomplete="name" placeholder="Nama lengkap">
               </div>
             </div>
             <div class="form-control">
               <label for="email-input" class="email">Email</label>
 
               <div class="form-input">
-                <input id="email-input" type="email" name="email" placeholder="email@example.com">
+                <input id="email-input" type="email" name="email" autocomplete="email" placeholder="email@example.com">
               </div>
             </div>
             <div class="form-control">
               <label for="password-input" class="password">Kata sandi</label>
 
               <div class="form-input">
-                <input id="password-input" type="password" name="password" placeholder="Kata sandi">
+                <input id="password-input" type="password" name="password" autocomplete="current-password" placeholder="Kata sandi">
               </div>
             </div>
             
@@ -81,14 +81,14 @@ export default class RegisterPage {
   showSubmitLoadingButton() {
     document.getElementById('submit-button-container').innerHTML = `
       <button class="btn" type="submit" disabled>
-        <i class="fas fa-spinner loader-button"></i> Daftar akun
+        <i class="fas fa-spinner loader-button"></i> Daftar
       </button>
     `;
   }
 
   hideSubmitLoadingButton() {
     document.getElementById('submit-button-container').innerHTML = `
-      <button class="btn" type="submit">Daftar akun</button>
+      <button class="btn" type="submit">Daftar</button>
     `;
   }
 }

@@ -1,5 +1,6 @@
 import LoginPresenter from './login-presenter';
 import * as StoryAPI from '../../../data/api';
+import * as AuthModel from '../../../utils/auth';
 
 export default class LoginPage {
   #presenter = null;
@@ -15,14 +16,14 @@ export default class LoginPage {
               <label for="email-input" class="email">Email</label>
 
               <div class="form-input">
-                <input id="email-input" type="email" name="email" placeholder="email@example.com">
+                <input id="email-input" type="email" name="email" autocomplete="email" placeholder="email@example.com">
               </div>
             </div>
             <div class="form-control">
               <label for="password-input" class="password">Kata sandi</label>
 
               <div class="form-input">
-                <input id="password-input" type="password" name="password" placeholder="Kata sandi">
+                <input id="password-input" type="password" name="password" autocomplete="current-password" placeholder="Kata sandi">
               </div>
             </div>
             
@@ -42,6 +43,7 @@ export default class LoginPage {
     this.#presenter = new LoginPresenter({
       view: this,
       model: StoryAPI,
+      authModel: AuthModel,
     });
 
     this.#setupForm();
@@ -52,36 +54,35 @@ export default class LoginPage {
       event.preventDefault();
 
       const data = {
-        name: document.getElementById('name-input').value,
         email: document.getElementById('email-input').value,
         password: document.getElementById('password-input').value,
       };
-      await this.#presenter.getLogined(data);
+      await this.#presenter.getLogin(data);
     });
   }
 
-  loginedSuccessfully(message) {
+  loginSuccessfully(message) {
     console.log(message);
 
     // Redirect
-    location.hash = '/login';
+    location.hash = '/';
   }
 
-  loginedFailed(message) {
+  loginFailed(message) {
     alert(message);
   }
 
   showSubmitLoadingButton() {
     document.getElementById('submit-button-container').innerHTML = `
       <button class="btn" type="submit" disabled>
-        <i class="fas fa-spinner loader-button"></i> Masuk akun
+        <i class="fas fa-spinner loader-button"></i> Masuk
       </button>
     `;
   }
 
   hideSubmitLoadingButton() {
     document.getElementById('submit-button-container').innerHTML = `
-      <button class="btn" type="submit">Masuk akun</button>
+      <button class="btn" type="submit">Masuk</button>
     `;
   }
 }
