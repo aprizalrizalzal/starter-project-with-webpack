@@ -184,7 +184,7 @@ label {
 .do-not-have-account a {
   color: #00adb5;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .already-have-account a:hover,
