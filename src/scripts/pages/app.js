@@ -1,5 +1,7 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
+import { getAccessToken, getLogout } from "../utils/auth";
+import { generateAuthenticatedNav, generateUnauthenticatedNav } from "./componenet/navigation";
 
 class App {
   #content = null;
@@ -11,10 +13,10 @@ class App {
     this.#drawerButton = drawerButton;
     this.#navigationDrawer = navigationDrawer;
 
-    this._setupDrawer();
+    this.#setupDrawer();
   }
 
-  _setupDrawer() {
+  #setupDrawer() {
     this.#drawerButton.addEventListener("click", () => {
       this.#navigationDrawer.classList.toggle("open");
     });
@@ -35,6 +37,30 @@ class App {
     });
   }
 
+  #setupNavigationList() {
+    const isLogin = !!getAccessToken();
+    const navList = this.#navigationDrawer.children.namedItem('nav-list');
+
+    if (!isLogin) {
+      navList.innerHTML = generateUnauthenticatedNav();
+      return;
+    }
+
+    navList.innerHTML = generateAuthenticatedNav();
+
+    const logoutButton = document.getElementById('logout');
+    logoutButton.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (confirm('Apakah Anda yakin ingin keluar?')) {
+        getLogout();
+
+        // Redirect
+        location.hash = '/login';
+      }
+    });
+  }
+
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
@@ -43,6 +69,7 @@ class App {
 
     this.#content.innerHTML = await page.render();
     await page.afterRender();
+    this.#setupNavigationList();
   }
 }
 

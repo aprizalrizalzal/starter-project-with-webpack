@@ -76,23 +76,59 @@ header {
 
 .nav-list {
   list-style: none;
-
   display: flex;
   flex-direction: column;
-  gap: 10px 20px;
+  gap: 10px;
 }
 
 .nav-list li a {
+  position: relative;
+  display: inline-block;
   padding: 6px 10px;
-
-  display: block;
-
   color: #222831;
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-list li a::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 4px;
+  width: 0%;
+  height: 2px;
+  background-color: #00adb5;
+  transition: width 0.3s ease;
 }
 
 .nav-list li a:hover {
-  text-decoration: underline;
+  color: #00adb5;
+}
+
+.nav-list li a:hover::after {
+  width: calc(100% - 20px);
+}
+
+/* Style khusus untuk a#logout */
+.nav-list li a#logout {
+  background-color: #c0392b;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.nav-list li a#logout::after {
+  display: none; /* hilangkan underline animasi untuk logout */
+}
+
+.nav-list li a#logout:hover {
+  background-color: #e74c3c;
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 /* MAIN */
