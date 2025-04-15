@@ -1,7 +1,7 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
 import { getAccessToken, getLogout } from "../utils/auth";
-import { generateAuthenticatedNav, generateUnauthenticatedNav } from "./componenet/navigation";
+import { generateAuthenticatedNavList, generateUnauthenticatedNavList } from "./componenet/nav-list";
 
 class App {
   #content = null;
@@ -42,11 +42,11 @@ class App {
     const navList = this.#navigationDrawer.children.namedItem('nav-list');
 
     if (!isLogin) {
-      navList.innerHTML = generateUnauthenticatedNav();
+      navList.innerHTML = generateUnauthenticatedNavList();
       return;
     }
 
-    navList.innerHTML = generateAuthenticatedNav();
+    navList.innerHTML = generateAuthenticatedNavList();
 
     const logoutButton = document.getElementById('logout');
     logoutButton.addEventListener('click', (event) => {
