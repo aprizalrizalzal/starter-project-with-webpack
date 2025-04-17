@@ -3,7 +3,6 @@
 * {
   margin: 0;
   padding: 0;
-
   box-sizing: border-box;
 }
 
@@ -17,18 +16,32 @@ body {
   max-width: 1300px;
 }
 
+/* Responsive container on smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 16px;
+  }
+}
+
+/* HEADER */
 header {
-  background-color: #222831;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #222831; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .main-header {
   min-height: 90px;
   padding-block: 20px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .brand-name {
@@ -38,20 +51,18 @@ header {
   color: #eeeeee;
 }
 
+/* NAVIGATION DRAWER */
 .navigation-drawer {
   min-height: 100vh;
   width: 200px;
   padding: 20px 10px;
   background-color: #eeeeee;
-
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
-
   box-shadow: 0 0 4px 2px #00000033;
   transform: translateX(-100%);
   transition: transform 350ms;
-
   z-index: 9999;
 }
 
@@ -63,17 +74,15 @@ header {
   padding: 8px;
   border: 0;
   border-radius: 4px;
-
   display: inline-block;
   background-color: transparent;
-
   font-weight: bold;
   font-size: 28px;
   color: #eeeeee;
-
   cursor: pointer;
 }
 
+/* NAVIGATION LIST */
 .nav-list {
   list-style: none;
   display: flex;
@@ -91,18 +100,26 @@ header {
   transition: color 0.3s ease;
 }
 
-.nav-list li a:hover {
-  color: #00adb5;
+.nav-list li a::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 4px;
+  width: 0%;
+  height: 2px;
+  background-color: #00adb5;
+  transition: width 0.3s ease;
 }
 
-.nav-list li a:hover::after {
-  width: calc(100% - 20px);
+.nav-list li a:hover {
+  color: #00adb5;
+  font-weight: bold;
 }
 
 /* Style khusus untuk a#logout */
 .nav-list li a#logout {
   background-color: #c0392b;
-  color: #ffffff;
+  color: #eeeeee;
   border-radius: 4px;
   padding: 10px 20px;
   font-weight: 600;
@@ -112,19 +129,24 @@ header {
 
 .nav-list li a#logout:hover {
   background-color: #e74c3c;
-  color: #fff;
+  color: #eeeeee;
   transform: translateX(2px);
 }
 
 /* MAIN */
 .main-content {
-  padding-block: 20px;
+  padding-top: 110px;
+}
+
+.home-title {
+  width: 100%;
+  text-align: center;
 }
 
 /* REGISTER LOGIN */
 .register,
 .login {
-  background-color: #ffffff;
+  background-color: #eeeeee;
   padding: 2.5rem;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -164,10 +186,10 @@ label {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border: 1px solid #eeeeee;
+  border: 1px solid #ffffff;
   border-radius: 8px;
   transition: border-color 0.3s, box-shadow 0.3s;
-  background-color: #eeeeee;
+  background-color: #ffffff;
 }
 
 .form-input input:focus {
@@ -215,6 +237,7 @@ label {
 
 /* CARD */
 .card-container .stories {
+  padding-block: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
@@ -224,10 +247,10 @@ label {
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
-  background: #fff;
+  background: #eeeeee;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
-  max-width: 300px;
+  max-width: 360px;
 }
 
 .card:hover {
@@ -261,18 +284,15 @@ label {
   color: #777;
 }
 
-/* Write your styles more here */
-
-@media screen and (width > 1000px) {
+/* RESPONSIVE NAVIGATION */
+@media screen and (min-width: 1000px) {
   .navigation-drawer {
     min-height: auto;
     width: auto;
     padding: 0;
     background-color: transparent;
-
     flex-direction: row;
     justify-content: space-between;
-
     position: static;
     box-shadow: none;
     transform: translateX(0);
@@ -287,7 +307,70 @@ label {
     color: #eeeeee;
   }
 
+  .nav-list li a::after {
+    background-color: #eeeeee;
+  }
+
+  .nav-list li a:hover {
+    color: #00adb5;
+  }
+
+  .nav-list li a#logout {
+    background-color: transparent;
+    color: #eeeeee;
+    border: 1px solid #eeeeee;
+  }
+
+  .nav-list li a#logout:hover {
+    background-color: #e74c3c;
+    color: #eeeeee;
+    transform: scale(1.05);
+  }
+
   .drawer-button {
     display: none;
+  }
+}
+
+/* Cards on smaller screens */
+@media (max-width: 768px) {
+  .card-container .stories {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
+
+/* Card text tweak for very small devices */
+@media (max-width: 500px) {
+  .card-img {
+    height: 140px;
+  }
+
+  .card-body {
+    padding: 12px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+  }
+}
+
+/* Login/register padding tweak for mobile */
+@media (max-width: 600px) {
+  .register,
+  .login {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
   }
 }

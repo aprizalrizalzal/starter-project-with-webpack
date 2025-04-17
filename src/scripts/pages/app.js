@@ -1,7 +1,7 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
 import { getAccessToken, getLogout } from "../utils/auth";
-import { generateAuthenticatedNavList, generateUnauthenticatedNavList } from "./componenet/nav-list";
+import { generateAuthenticatedNavList, generateUnauthenticatedNavList } from "../utils/componenet/nav-list";
 
 class App {
   #content = null;

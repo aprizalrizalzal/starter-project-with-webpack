@@ -1,6 +1,6 @@
 import HomePresenter from "./home-presenter";
 import * as StoryAPI from '../../data/api';
-import { generateCardList } from "../componenet/card-list";
+import { generateCardList } from "../../utils/componenet/card-list";
 
 export default class HomePage {
   #presenter = null;
@@ -8,10 +8,10 @@ export default class HomePage {
   async render() {
     return `
       <section class="container">
-        <h1>Dicoding Story</h1>
+        <h1 class="home-title">Story</h1>
 
         <div class="card-container">
-          <div id="stories-list"></div>
+          <div id="card-list"></div>
         </div>
       </section>
     `;
@@ -33,7 +33,6 @@ export default class HomePage {
     }
 
     const html = stories.reduce((accumulator, story) => {
-      console.log(story);
       return accumulator.concat(
         generateCardList({
           ...story,
@@ -42,7 +41,7 @@ export default class HomePage {
       
     }, '');
 
-    document.getElementById('stories-list').innerHTML = `
+    document.getElementById('card-list').innerHTML = `
       <div class="stories">${html}</div>
     `;
   }
@@ -52,11 +51,11 @@ export default class HomePage {
   }
 
   // showLoading() {
-  //     document.getElementById('stories-list-loading-container').innerHTML =
+  //     document.getElementById('card-list-loading-container').innerHTML =
   //       generateLoaderAbsoluteTemplate();
   //   }
 
   // hideLoading() {
-  //   document.getElementById('stories-list-loading-container').innerHTML = '';
+  //   document.getElementById('card-list-loading-container').innerHTML = '';
   // }
 }

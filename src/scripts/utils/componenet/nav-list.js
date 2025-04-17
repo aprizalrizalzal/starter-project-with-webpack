@@ -7,6 +7,7 @@ export function generateUnauthenticatedNavList() {
 
 export function generateAuthenticatedNavList() {
     return `
-    <li><a id="logout" href="#/logout">Logout</a></li>
+    <button class="btn" id="new-story">Add New Story</button>
+    <li><a id="logout" href="#/logout">Keluar</a></li>
     `;
 }

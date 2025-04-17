@@ -19,7 +19,6 @@ export default class HomePresenter {
         }
   
         this.#view.takeStoriesList(response.message, response.listStory);
-        console.log(response.listStory);
         
       } catch (error) {
         console.error('fetchAllStories: error:', error);
