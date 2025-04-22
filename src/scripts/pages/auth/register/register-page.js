@@ -8,7 +8,7 @@ export default class RegisterPage {
     return `
       <section class="container">
         <div class="register">
-          <h1 class="title">Dicoding Story</h1>
+          <h1 class="title">Daftar</h1>
 
           <form id="register-form" class="register-form">
             <div class="form-control">

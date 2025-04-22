@@ -1,15 +1,28 @@
 import { getActiveRoute } from '../routes/url-parser';
 import CONFIG from '../config';
 
-export function getAccessToken() {
+function isStorageAvailable() {
   try {
-    const accessToken = localStorage.getItem(CONFIG.ACCESS_TOKEN_KEY);
+    const testKey = '__storage_test__';
+    localStorage.setItem(testKey, 'test');
+    localStorage.removeItem(testKey);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-    if (accessToken === 'null' || accessToken === 'undefined') {
-      return null;
-    }
+export function getAccessToken() {
+  if (!isStorageAvailable()) {
+    console.warn('LocalStorage tidak tersedia. Token tidak bisa diambil.');
+    return null;
+  }
 
-    return accessToken;
+  try {
+    const token = localStorage.getItem(CONFIG.ACCESS_TOKEN_KEY);
+    if (!token || token === 'null' || token === 'undefined') return null;
+
+    return token;
   } catch (error) {
     console.error('getAccessToken: error:', error);
     return null;
@@ -17,6 +30,11 @@ export function getAccessToken() {
 }
 
 export function putAccessToken(token) {
+  if (!isStorageAvailable()) {
+    alert('Gagal menyimpan token. Coba nonaktifkan mode private/incognito browser.');
+    return false;
+  }
+
   try {
     localStorage.setItem(CONFIG.ACCESS_TOKEN_KEY, token);
     return true;
@@ -27,22 +45,28 @@ export function putAccessToken(token) {
 }
 
 export function removeAccessToken() {
+  if (!isStorageAvailable()) {
+    console.warn('LocalStorage tidak tersedia. Tidak bisa menghapus token.');
+    return false;
+  }
+
   try {
     localStorage.removeItem(CONFIG.ACCESS_TOKEN_KEY);
     return true;
   } catch (error) {
-    console.error('getLogout: error:', error);
+    console.error('removeAccessToken: error:', error);
     return false;
   }
 }
 
-const unauthenticated = ['/login', '/register'];
+const unauthenticatedRoutes = ['/login', '/register'];
 
 export function checkUnauthenticated(page) {
   const url = getActiveRoute();
-  const isLogin = !!getAccessToken();
+  const isLoggedIn = !!getAccessToken();
 
-  if (unauthenticated.includes(url) && isLogin) {
+  if (unauthenticatedRoutes.includes(url) && isLoggedIn) {
+    console.info('Sudah login, redirect ke home.');
     location.hash = '/';
     return null;
   }
@@ -51,9 +75,10 @@ export function checkUnauthenticated(page) {
 }
 
 export function checkAuthenticated(page) {
-  const isLogin = !!getAccessToken();
+  const isLoggedIn = !!getAccessToken();
 
-  if (!isLogin) {
+  if (!isLoggedIn) {
+    alert('Anda harus login dulu untuk mengakses halaman ini.');
     location.hash = '/login';
     return null;
   }
@@ -62,5 +87,11 @@ export function checkAuthenticated(page) {
 }
 
 export function getLogout() {
-  removeAccessToken();
+  const success = removeAccessToken();
+  if (success) {
+    alert('Logout berhasil!');
+    location.hash = '/login';
+  } else {
+    alert('Gagal logout. Silakan coba lagi.');
+  }
 }

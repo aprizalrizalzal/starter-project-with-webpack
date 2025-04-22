@@ -1,7 +1,11 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
 import { getAccessToken, getLogout } from "../utils/auth";
-import { generateAuthenticatedNavList, generateUnauthenticatedNavList } from "../utils/componenet/nav-list";
+import {
+  generateAuthenticatedNavList,
+  generateUnauthenticatedNavList,
+} from "../utils/componenet/nav-list";
+import { transitionHelper } from "../utils/transition/helper";
 
 class App {
   #content = null;
@@ -17,6 +21,8 @@ class App {
   }
 
   #setupDrawer() {
+    if (!this.#drawerButton || !this.#navigationDrawer) return;
+
     this.#drawerButton.addEventListener("click", () => {
       this.#navigationDrawer.classList.toggle("open");
     });
@@ -38,38 +44,73 @@ class App {
   }
 
   #setupNavigationList() {
-    const isLogin = !!getAccessToken();
-    const navList = this.#navigationDrawer.children.namedItem('nav-list');
+    const navList = this.#navigationDrawer?.children?.namedItem("nav-list");
+    if (!navList) return;
 
-    if (!isLogin) {
-      navList.innerHTML = generateUnauthenticatedNavList();
+    const isLogin = !!getAccessToken();
+
+    try {
+      navList.innerHTML = isLogin
+        ? generateAuthenticatedNavList()
+        : generateUnauthenticatedNavList();
+    } catch (error) {
+      console.error("Gagal generate navigasi:", error);
+      navList.innerHTML = "<li>Terjadi kesalahan memuat navigasi</li>";
       return;
     }
 
-    navList.innerHTML = generateAuthenticatedNavList();
+    if (isLogin) {
+      const logoutButton = document.getElementById("logout");
+      if (logoutButton) {
+        logoutButton.addEventListener("click", (event) => {
+          event.preventDefault();
 
-    const logoutButton = document.getElementById('logout');
-    logoutButton.addEventListener('click', (event) => {
-      event.preventDefault();
+          if (confirm("Apakah Anda yakin ingin keluar?")) {
+            getLogout();
 
-      if (confirm('Apakah Anda yakin ingin keluar?')) {
-        getLogout();
-
-        // Redirect
-        location.hash = '/login';
+            // Redirect
+            location.hash = "/login";
+          }
+        });
       }
-    });
+    }
   }
 
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
 
+    if (!route) {
+      this.#content.innerHTML = "<p>Halaman tidak ditemukan.</p>";
+      return;
+    }
+
     const page = typeof route === "function" ? route() : route;
 
-    this.#content.innerHTML = await page.render();
-    await page.afterRender();
-    this.#setupNavigationList();
+    const updateContent = async () => {
+      try {
+        this.#content.innerHTML = await page.render();
+        await page.afterRender?.();
+      } catch (error) {
+        console.error("Gagal merender halaman:", error);
+        this.#content.innerHTML =
+          "<p>Terjadi kesalahan saat memuat halaman.</p>";
+      }
+    };
+
+    if (!document.startViewTransition) {
+      await updateContent();
+      this.#setupNavigationList();
+      return;
+    }
+
+    const transition = transitionHelper({ updateDOM: updateContent });
+
+    transition.ready.catch(console.error);
+    transition.updateCallbackDone.then(() => {
+      scrollTo({ top: 0, behavior: "instant" });
+      this.#setupNavigationList();
+    });
   }
 }
 

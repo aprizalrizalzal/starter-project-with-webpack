@@ -4,18 +4,16 @@ export default class Camera {
     #width = 640;
     #height = 0;
   
-    #videoElement;
-    #selectCameraElement;
-    #canvasElement;
-  
-    #takePictureButton;
+    #cameraVideoElement;
+    #cameraSelectElement;
+    #cameraCanvasElement;
+    #cameraButtonElement;
   
     static addNewStream(stream) {
       if (!Array.isArray(window.currentStreams)) {
         window.currentStreams = [stream];
         return;
       }
-  
       window.currentStreams = [...window.currentStreams, stream];
     }
   
@@ -32,29 +30,32 @@ export default class Camera {
       });
     }
   
-    constructor({ video, cameraSelect, canvas, options = {} }) {
-      this.#videoElement = video;
-      this.#selectCameraElement = cameraSelect;
-      this.#canvasElement = canvas;
+    constructor({ cameraVideo, cameraSelect, cameraCanvas, options = {} }) {
+      this.#cameraVideoElement = cameraVideo;
+      this.#cameraSelectElement = cameraSelect;
+      this.#cameraCanvasElement = cameraCanvas;
+  
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('Browser Anda tidak mendukung kamera. Coba gunakan browser yang lebih baru.');
+        return;
+      }
   
       this.#initialListener();
     }
   
     #initialListener() {
-      this.#videoElement.oncanplay = () => {
-        if (this.#streaming) {
-          return;
-        }
+      this.#cameraVideoElement.oncanplay = () => {
+        if (this.#streaming) return;
   
-        this.#height = (this.#videoElement.videoHeight * this.#width) / this.#videoElement.videoWidth;
-  
-        this.#canvasElement.setAttribute('width', this.#width);
-        this.#canvasElement.setAttribute('height', this.#height);
+        this.#height = (this.#cameraVideoElement.videoHeight * this.#width) / this.#cameraVideoElement.videoWidth;
+        this.#cameraCanvasElement.setAttribute('width', this.#width);
+        this.#cameraCanvasElement.setAttribute('height', this.#height);
   
         this.#streaming = true;
+        if (this.#cameraButtonElement) this.#cameraButtonElement.disabled = false;
       };
   
-      this.#selectCameraElement.onchange = async () => {
+      this.#cameraSelectElement.onchange = async () => {
         await this.stop();
         await this.launch();
       };
@@ -63,39 +64,38 @@ export default class Camera {
     async #populateDeviceList(stream) {
       try {
         if (!(stream instanceof MediaStream)) {
-          return Promise.reject(Error('MediaStream not found!'));
+          throw new Error('MediaStream not found!');
         }
   
         const { deviceId } = stream.getVideoTracks()[0].getSettings();
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((d) => d.kind === 'videoinput');
   
-        const enumeratedDevices = await navigator.mediaDevices.enumerateDevices();
-        const list = enumeratedDevices.filter((device) => {
-          return device.kind === 'videoinput';
-        });
+        if (videoDevices.length === 0) {
+          alert('Tidak ada kamera yang terdeteksi.');
+        }
   
-        const html = list.reduce((accumulator, device, currentIndex) => {
-          return accumulator.concat(`
-            <option
-              value="${device.deviceId}"
-              ${deviceId === device.deviceId ? 'selected' : ''}
-            >
-              ${device.label || `Camera ${currentIndex + 1}`}
+        const html = videoDevices.reduce((html, device, i) => {
+          return html.concat(`
+            <option value="${device.deviceId}" ${device.deviceId === deviceId ? 'selected' : ''}>
+              ${device.label || `Camera ${i + 1}`}
             </option>
           `);
         }, '');
   
-        this.#selectCameraElement.innerHTML = html;
+        this.#cameraSelectElement.innerHTML = html;
       } catch (error) {
         console.error('#populateDeviceList: error:', error);
+        alert('Gagal mendapatkan daftar kamera.');
       }
     }
   
     async #getStream() {
       try {
         const deviceId =
-          !this.#streaming && !this.#selectCameraElement.value
+          !this.#streaming && !this.#cameraSelectElement.value
             ? undefined
-            : { exact: this.#selectCameraElement.value };
+            : { exact: this.#cameraSelectElement.value };
   
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
@@ -104,31 +104,35 @@ export default class Camera {
           },
         });
   
-        // Show available camera after camera permission granted
         await this.#populateDeviceList(stream);
-  
         return stream;
       } catch (error) {
         console.error('#getStream: error:', error);
+        alert('Tidak bisa mengakses kamera. Pastikan Anda sudah memberi izin.');
         return null;
       }
     }
   
     async launch() {
-      this.#currentStream = await this.#getStream();
+      const stream = await this.#getStream();
+      if (!stream) {
+        this.#streaming = false;
+        if (this.#cameraButtonElement) this.#cameraButtonElement.disabled = true;
+        return;
+      }
   
-      // Record all MediaStream in global context
+      this.#currentStream = stream;
       Camera.addNewStream(this.#currentStream);
   
-      this.#videoElement.srcObject = this.#currentStream;
-      this.#videoElement.play();
+      this.#cameraVideoElement.srcObject = this.#currentStream;
+      this.#cameraVideoElement.play();
   
       this.#clearCanvas();
     }
   
     stop() {
-      if (this.#videoElement) {
-        this.#videoElement.srcObject = null;
+      if (this.#cameraVideoElement) {
+        this.#cameraVideoElement.srcObject = null;
         this.#streaming = false;
       }
   
@@ -139,34 +143,36 @@ export default class Camera {
       }
   
       this.#clearCanvas();
+      if (this.#cameraButtonElement) this.#cameraButtonElement.disabled = true;
     }
   
     #clearCanvas() {
-      const context = this.#canvasElement.getContext('2d');
+      const context = this.#cameraCanvasElement.getContext('2d');
       context.fillStyle = '#AAAAAA';
-      context.fillRect(0, 0, this.#canvasElement.width, this.#canvasElement.height);
+      context.fillRect(0, 0, this.#cameraCanvasElement.width, this.#cameraCanvasElement.height);
     }
   
-    async takePicture() {
-      if (!(this.#width && this.#height)) {
+    async takePhoto() {
+      if (!(this.#width && this.#height && this.#streaming)) {
+        alert('Kamera belum siap. Tidak bisa mengambil gambar.');
         return null;
       }
   
-      const context = this.#canvasElement.getContext('2d');
+      const context = this.#cameraCanvasElement.getContext('2d');
+      this.#cameraCanvasElement.width = this.#width;
+      this.#cameraCanvasElement.height = this.#height;
   
-      this.#canvasElement.width = this.#width;
-      this.#canvasElement.height = this.#height;
+      context.drawImage(this.#cameraVideoElement, 0, 0, this.#width, this.#height);
   
-      context.drawImage(this.#videoElement, 0, 0, this.#width, this.#height);
-  
-      return await new Promise((resolve) => {
-        this.#canvasElement.toBlob((blob) => resolve(blob));
+      return new Promise((resolve) => {
+        this.#cameraCanvasElement.toBlob((blob) => resolve(blob));
       });
     }
   
     addCheeseButtonListener(selector, callback) {
-      this.#takePictureButton = document.querySelector(selector);
-      this.#takePictureButton.onclick = callback;
+      this.#cameraButtonElement = document.querySelector(selector);
+      this.#cameraButtonElement.disabled = true; // default disabled
+      this.#cameraButtonElement.onclick = callback;
     }
   }
   

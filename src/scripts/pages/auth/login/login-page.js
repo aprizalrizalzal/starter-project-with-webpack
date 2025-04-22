@@ -9,7 +9,7 @@ export default class LoginPage {
     return `
       <section class="container">
         <div class="login">
-          <h1 class="title">Dicoding Story</h1>
+          <h1 class="title">Masuk</h1>
 
           <form id="login-form" class="login-form">
             <div class="form-control">
@@ -75,7 +75,7 @@ export default class LoginPage {
   showSubmitLoadingButton() {
     document.getElementById('submit-button-container').innerHTML = `
       <button class="btn" type="submit" disabled>
-        <i class="fas fa-spinner loader-button"></i> Masuk
+        Masuk <i class="fa-solid fa-circle-notch fa-spin"></i>
       </button>
     `;
   }

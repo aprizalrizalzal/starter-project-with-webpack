@@ -1,5 +1,6 @@
 // CSS imports
-import '../styles/styles.css';
+import '../styles/style.css';
+import '../styles/responsive.css';
 
 import App from './pages/app';
 

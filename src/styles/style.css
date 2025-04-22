@@ -86,7 +86,8 @@ header {
 .nav-list {
   list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: wrap;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -116,8 +117,32 @@ header {
   font-weight: bold;
 }
 
-/* Style khusus untuk a#logout */
+.nav-list li a#add {
+  display: flex;
+  flex-direction: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #eeeeee;
+  color: #222831;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.nav-list li a#add:hover {
+  background-color: #00adb5;
+  color: #eeeeee;
+}
+
 .nav-list li a#logout {
+  display: flex;
+  flex-direction: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   background-color: #c0392b;
   color: #eeeeee;
   border-radius: 4px;
@@ -130,7 +155,6 @@ header {
 .nav-list li a#logout:hover {
   background-color: #e74c3c;
   color: #eeeeee;
-  transform: translateX(2px);
 }
 
 /* MAIN */
@@ -282,95 +306,4 @@ label {
 .card-meta {
   font-size: 0.8rem;
   color: #777;
-}
-
-/* RESPONSIVE NAVIGATION */
-@media screen and (min-width: 1000px) {
-  .navigation-drawer {
-    min-height: auto;
-    width: auto;
-    padding: 0;
-    background-color: transparent;
-    flex-direction: row;
-    justify-content: space-between;
-    position: static;
-    box-shadow: none;
-    transform: translateX(0);
-  }
-
-  .nav-list {
-    flex-direction: row;
-  }
-
-  .nav-list li a {
-    display: inline-block;
-    color: #eeeeee;
-  }
-
-  .nav-list li a::after {
-    background-color: #eeeeee;
-  }
-
-  .nav-list li a:hover {
-    color: #00adb5;
-  }
-
-  .nav-list li a#logout {
-    background-color: transparent;
-    color: #eeeeee;
-    border: 1px solid #eeeeee;
-  }
-
-  .nav-list li a#logout:hover {
-    background-color: #e74c3c;
-    color: #eeeeee;
-    transform: scale(1.05);
-  }
-
-  .drawer-button {
-    display: none;
-  }
-}
-
-/* Cards on smaller screens */
-@media (max-width: 768px) {
-  .card-container .stories {
-    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-  }
-
-  .card {
-    max-width: 100%;
-  }
-}
-
-/* Card text tweak for very small devices */
-@media (max-width: 500px) {
-  .card-img {
-    height: 140px;
-  }
-
-  .card-body {
-    padding: 12px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-description {
-    font-size: 0.9rem;
-  }
-}
-
-/* Login/register padding tweak for mobile */
-@media (max-width: 600px) {
-  .register,
-  .login {
-    padding: 1.5rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
 }
