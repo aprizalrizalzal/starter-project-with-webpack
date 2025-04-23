@@ -7,6 +7,18 @@ export default class AddNewStoryPresenter {
     this.#model = model;
   }
 
+  async showMap() {
+    // this.#view.showMapLoading();
+    try {
+      await this.#view.setupMap();
+    } catch (error) {
+      console.error('showMap: error:', error);
+    } finally {
+      // this.#view.hideMapLoading();
+    }
+  }
+
+  // Fungsi untuk mengirim cerita baru ke model
   async postNewStory({ description, photo, lat, lon }) {
     try {
       const data = {

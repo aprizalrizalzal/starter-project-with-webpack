@@ -5,6 +5,7 @@ import modalError from "../../../utils/componenet/modal-error";
 export default class RegisterPage {
   #presenter = null;
 
+  // Metode untuk merender halaman register
   async render() {
     return `
       <section class="container">
@@ -51,6 +52,7 @@ export default class RegisterPage {
     `;
   }
 
+  // Metode yang dijalankan setelah halaman dirender
   async afterRender() {
     this.#presenter = new RegisterPresenter({
       view: this,
@@ -60,6 +62,7 @@ export default class RegisterPage {
     this.#setupForm();
   }
 
+  // Metode untuk mengatur event listener pada form register
   #setupForm() {
     document
       .getElementById("register-form")
@@ -75,19 +78,22 @@ export default class RegisterPage {
       });
   }
 
+  // Metode yang dipanggil ketika pendaftaran berhasil
   registeredSuccessfully(message) {
     console.log(message);
 
-    // Redirect
+    // Redirect ke halaman login
     location.hash = "/login";
   }
 
+  // Metode yang dipanggil ketika pendaftaran gagal
   registeredFailed(message) {
     console.log(message);
     
     modalError(message);
   }
 
+  // Metode untuk menampilkan tombol loading saat submit
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
       <button id="submit-button" class="submit-button" type="submit">
@@ -96,6 +102,7 @@ export default class RegisterPage {
     `;
   }
 
+  // Metode untuk menyembunyikan tombol loading setelah submit selesai
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
       <button id="submit-button" class="submit-button" type="submit">

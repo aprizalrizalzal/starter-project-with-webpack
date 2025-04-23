@@ -1,6 +1,7 @@
 import AddNewStoryPresenter from "./add-new-story-presenter.js";
 import * as StoryAPI from "../../data/api.js";
-import Camera from "../../utils/camera.js";
+import Camera from "../../utils/media/camera.js";
+import Map from "../../utils/leaflet/map.js";
 
 export default class AddNewStoryPage {
   #presenter;
@@ -8,8 +9,9 @@ export default class AddNewStoryPage {
   #camera;
   #cameraOpen = false;
   #takePhoto = null;
+  #map = null;
 
-  //Merender halaman
+  // Merender halaman utama
   async render() {
     return `
       <section class="container">
@@ -18,7 +20,7 @@ export default class AddNewStoryPage {
 
           <div class="form-container">
             <form id="add-new-story-form" class="add-new-story-form" enctype="multipart/form-data">
-              <!-- Description -->
+              <!-- Deskripsi -->
               <div class="description-control">
                 <label for="description" class="description-label">Description</label>
                 <div class="description-input">
@@ -32,8 +34,8 @@ export default class AddNewStoryPage {
                 </div>
               </div>
 
-              <!-- Upload Photo -->
-              <div class="form-control photo-control">
+              <!-- Unggah Foto -->
+              <div class="photo-control">
                 <label for="photo-input" class="photo-label">Photo</label>
                 <div class="photo-upload-container">
                   <button id="select-file" class="upload-button" type="button">
@@ -55,7 +57,7 @@ export default class AddNewStoryPage {
                   </button>
                 </div>
 
-                <!-- Camera -->
+                <!-- Kamera -->
                 <div id="camera-container" class="camera-container">
                   <video id="camera-video" class="camera-video" autoplay></video>
                   <canvas id="camera-canvas" class="camera-canvas"></canvas>
@@ -66,8 +68,30 @@ export default class AddNewStoryPage {
                   </div>
                 </div>
 
-                <!-- Photo Preview -->
+                <!-- Pratinjau Foto -->
                 <div id="photo-preview" class="photo-preview"></div>
+              </div>
+
+              <!-- Pratinjau Peta -->
+              <div class="map-control">
+                <div class="map-title">Lokasi</div>
+
+                <div class="map-container">
+                  <div class="map-location-container">
+                    <div id="map" class="map"></div>
+                    <div id="map-loading"></div>
+                  </div>
+                  <div class="location-input-container">
+                    <input type="number" name="latitude" value="">
+                    <input type="number" name="longitude" value="">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-buttons-container">
+                <div id="submit-button-container">
+                  <button class="submit-button" type="submit">Buat Cerita</button>
+                </div>
               </div>
             </form>
           </div>
@@ -76,18 +100,19 @@ export default class AddNewStoryPage {
     `;
   }
 
-  //Dijalankan setelah halaman dirender
+  // Dijalankan setelah halaman dirender
   async afterRender() {
     this.#presenter = new AddNewStoryPresenter({
       view: this,
       model: StoryAPI,
     });
     this.#takePhoto = null;
+    this.#presenter.showMap();
 
     this.#setupForm();
   }
 
-  //Mengatur form dan event-event terkait
+  // Mengatur form dan event-event terkait
   #setupForm() {
     this.#form = document.getElementById("add-new-story-form");
     this.#form.addEventListener("submit", async (event) => {
@@ -96,6 +121,8 @@ export default class AddNewStoryPage {
       const data = {
         description: this.#form.elements.namedItem("description").value,
         photo: this.#takePhoto ? [this.#takePhoto.blob] : [],
+        latitude: this.#form.elements.namedItem('latitude').value,
+        longitude: this.#form.elements.namedItem('longitude').value,
       };
 
       await this.#presenter.postNewStory(data);
@@ -105,6 +132,7 @@ export default class AddNewStoryPage {
     const photoInput = document.getElementById("photo-input");
     const cameraContainer = document.getElementById("camera-container");
 
+    // Event untuk membuka/menutup kamera
     document.getElementById("open-camera").addEventListener("click", async (event) => {
       cameraContainer.classList.toggle("show-camera");
 
@@ -122,6 +150,7 @@ export default class AddNewStoryPage {
       this.#camera.stop();
     });
 
+    // Event untuk memilih file foto
     if (selectFileButton && photoInput) {
       selectFileButton.addEventListener("click", () => {
         photoInput.click();
@@ -137,7 +166,7 @@ export default class AddNewStoryPage {
     }
   }
 
-  //Mengatur kamera
+  // Mengatur kamera
   #setupCamera() {
     if (this.#camera) {
       return;
@@ -149,6 +178,7 @@ export default class AddNewStoryPage {
       cameraCanvas: document.getElementById("camera-canvas"),
     });
 
+    // Event untuk menangkap foto dari kamera
     this.#camera.addCheeseButtonListener("#camera-button", async () => {
       const photo = await this.#camera.takePhoto();
       await this.#addTakePhoto(photo);
@@ -156,7 +186,7 @@ export default class AddNewStoryPage {
     });
   }
 
-  //Menambahkan foto yang diambil dari kamera
+  // Menambahkan foto yang diambil dari kamera
   async #addTakePhoto(image) {
     let blob = image;
 
@@ -171,7 +201,7 @@ export default class AddNewStoryPage {
     };
   }
 
-  //Menampilkan pratinjau foto
+  // Menampilkan pratinjau foto
   async #previewPhoto(image) {
     const previewContainer = document.getElementById("photo-preview");
     if (!previewContainer) return;
@@ -190,5 +220,40 @@ export default class AddNewStoryPage {
 
     imgWrapper.appendChild(img);
     previewContainer.appendChild(imgWrapper);
+  }
+
+  // Mengatur peta
+  async setupMap() {
+    this.#map = await Map.build('#map', {
+      zoom: 15,
+      locate: true,
+    });
+
+    const centerCoordinates = this.#map.getCenter();
+
+    this.#updateMapCoordinates(centerCoordinates.latitude, centerCoordinates.longitude);
+
+    const draggableMarker = this.#map.addMarker([centerCoordinates.latitude, centerCoordinates.longitude], {
+      draggable: true,
+    });
+
+    // Event untuk memperbarui koordinat saat marker dipindahkan
+    draggableMarker.on('move', (event) => {
+      const coordinate = event.target.getLatLng();
+      this.#updateMapCoordinates(coordinate.lat, coordinate.lng);
+    });
+
+    // Event untuk memperbarui koordinat saat peta diklik
+    this.#map.addMapEventListener('click', (event) => {
+      draggableMarker.setLatLng(event.latlng);
+      this.#map.changeCamera(event.latlng);
+      this.#updateMapCoordinates(event.latlng.lat, event.latlng.lng);
+    });
+  }
+
+  // Memperbarui koordinat pada form
+  #updateMapCoordinates(lat, lng) {
+    this.#form.elements.namedItem('latitude').value = lat;
+    this.#form.elements.namedItem('longitude').value = lng;
   }
 }

@@ -6,6 +6,7 @@ import modalError from "../../../utils/componenet/modal-error";
 export default class LoginPage {
   #presenter = null;
 
+  // Method untuk merender halaman login
   async render() {
     return `
       <section class="container">
@@ -45,6 +46,7 @@ export default class LoginPage {
     `;
   }
 
+  // Method yang dijalankan setelah halaman dirender
   async afterRender() {
     this.#presenter = new LoginPresenter({
       view: this,
@@ -55,6 +57,7 @@ export default class LoginPage {
     this.#setupForm();
   }
 
+  // Method untuk mengatur event listener pada form login
   #setupForm() {
     document
       .getElementById("login-form")
@@ -69,19 +72,22 @@ export default class LoginPage {
       });
   }
 
+  // Method yang dipanggil ketika login berhasil
   loginSuccessfully(message) {
     console.log(message);
 
-    // Redirect
+    // Redirect ke halaman utama
     location.hash = "/";
   }
 
+  // Method yang dipanggil ketika login gagal
   loginFailed(message) {
     console.log(message);
     
     modalError(message);
   }
 
+  // Method untuk menampilkan tombol loading saat submit
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
       <button id="submit-button" class="submit-button" type="submit">
@@ -90,6 +96,7 @@ export default class LoginPage {
     `;
   }
 
+  // Method untuk menyembunyikan tombol loading setelah submit selesai
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
       <button id="submit-button" class="submit-button" type="submit">
