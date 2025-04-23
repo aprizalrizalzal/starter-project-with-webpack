@@ -58,7 +58,7 @@ export default class HomePage {
       const loginButton = document.createElement("a");
       loginButton.textContent = "Masuk";
       loginButton.href = "#/login";
-      loginButton.classList.add("btn");
+      loginButton.classList.add("button");
 
       loginButton.addEventListener("click", () => {
         document.body.removeChild(errorPopup);

@@ -14,7 +14,7 @@ export default function modalError(message) {
 
     const closeButton = document.createElement("a");
     closeButton.textContent = "Tutup";
-    closeButton.classList.add("btn");
+    closeButton.classList.add("button");
     closeButton.id = "close-button";
 
     closeButton.addEventListener("click", () => {

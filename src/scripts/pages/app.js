@@ -65,12 +65,60 @@ class App {
         logoutButton.addEventListener("click", (event) => {
           event.preventDefault();
 
-          if (confirm("Apakah Anda yakin ingin keluar?")) {
+          // Create modal overlay
+          const overlay = document.createElement("div");
+          overlay.classList.add("modal-overlay");
+
+          // Create modal popup
+          const modalPopup = document.createElement("div");
+          modalPopup.classList.add("modal-popup");
+
+          // Create modal message
+          const modalMessage = document.createElement("p");
+          modalMessage.textContent = "Apakah Anda yakin ingin keluar?";
+
+          // Create button container
+          const buttonContainer = document.createElement("div");
+          buttonContainer.classList.add("button-container");
+
+          // Create confirm button
+          const confirmButton = document.createElement("button");
+          confirmButton.textContent = "Ya";
+          confirmButton.classList.add("button-confirm");
+
+          confirmButton.addEventListener("click", () => {
             getLogout();
 
             // Redirect
             location.hash = "/login";
-          }
+
+            // Remove modal
+            document.body.removeChild(modalPopup);
+            document.body.removeChild(overlay);
+          });
+
+          // Create cancel button
+          const cancelButton = document.createElement("button");
+          cancelButton.textContent = "Batal";
+          cancelButton.classList.add("button-cancel");
+
+          cancelButton.addEventListener("click", () => {
+            // Remove modal
+            document.body.removeChild(modalPopup);
+            document.body.removeChild(overlay);
+          });
+
+          // Append buttons to button container
+          buttonContainer.appendChild(confirmButton);
+          buttonContainer.appendChild(cancelButton);
+
+          // Append elements to modal popup
+          modalPopup.appendChild(modalMessage);
+          modalPopup.appendChild(buttonContainer);
+
+          // Append modal popup and overlay to body
+          document.body.appendChild(overlay);
+          document.body.appendChild(modalPopup);
         });
       }
     }

@@ -91,7 +91,6 @@ export function checkAuthenticated(page) {
 export function getLogout() {
   const success = removeAccessToken();
   if (success) {
-    alert("Logout berhasil!");
     location.hash = "/login";
   } else {
     alert("Gagal logout. Silakan coba lagi.");

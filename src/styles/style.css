@@ -79,76 +79,71 @@ header {
 .nav-list {
   list-style: none;
   display: flex;
-  flex-direction: wrap;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .nav-list li a {
   position: relative;
   display: inline-block;
-  padding: 6px 10px;
-  color: #222831;
+  padding: 8px 12px;
+  color: #eeeeee;
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-list li a:hover {
+  color: #00adb5;
+  transform: scale(1.05);
 }
 
 .nav-list li a::after {
   content: "";
   position: absolute;
-  left: 10px;
-  bottom: 4px;
+  left: 0;
+  bottom: 0;
   width: 0%;
   height: 2px;
   background-color: #00adb5;
   transition: width 0.3s ease;
 }
 
-.nav-list li a:hover {
-  color: #00adb5;
-  font-weight: bold;
-}
-
 .nav-list li a#add {
   display: flex;
-  flex-direction: wrap;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
-  background-color: #eeeeee;
-  color: #222831;
+  gap: 8px;
+  background-color: #00adb5;
+  color: #eeeeee;
   border-radius: 4px;
   padding: 10px 20px;
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  overflow: hidden;
 }
 
 .nav-list li a#add:hover {
-  background-color: #00adb5;
-  color: #eeeeee;
+  background-color: #007f8a;
+  transform: translateY(-2px);
 }
 
 .nav-list li a#logout {
   display: flex;
-  flex-direction: wrap;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background-color: #c0392b;
   color: #eeeeee;
   border-radius: 4px;
   padding: 10px 20px;
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  overflow: hidden;
 }
 
 .nav-list li a#logout:hover {
   background-color: #e74c3c;
-  color: #eeeeee;
+  transform: translateY(-2px);
 }
+/* END NAVIGATION LIST */
 
 /* MAIN */
 .main-content {
@@ -157,7 +152,7 @@ header {
 
 .home-title {
   width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 /* LOGIN REGISTER */
@@ -339,7 +334,7 @@ header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
   z-index: 10001;
-  max-width: 400px;
+  max-width: auto;
   width: 90%;
 }
 
@@ -349,7 +344,7 @@ header {
   font-weight: bold;
 }
 
-.modal-popup .btn {
+.modal-popup .button {
   display: inline-block;
   width: auto;
   padding: 10px 20px;
@@ -364,7 +359,7 @@ header {
   transition: background-color 0.3s ease;
 }
 
-.modal-popup .btn:hover {
+.modal-popup .button:hover {
   background-color: #007f8a;
 }
 
@@ -386,7 +381,7 @@ header {
   margin-top: 20px;
 }
 
-.btn-confirm {
+.button-confirm {
   background-color: #00adb5;
   color: #eeeeee;
   border-radius: 4px;
@@ -396,50 +391,69 @@ header {
   transition: background-color 0.3s ease, transform 0.2s ease;
   overflow: hidden;
 }
-.btn-confirm:hover {
+.button-confirm:hover {
   background-color: #007f8a;
   color: #eeeeee;
 }
 
-.btn-cancel {
-  background-color: #393e46;
+.button-cancel {
+  background-color: #c0392b;
   color: #eeeeee;
   border-radius: 4px;
-  border-color: #393e46;
+  border-color: #c0392b;
   padding: 10px 20px;
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease;
   overflow: hidden;
 }
-.btn-cancel:hover {
-  background-color: #222831;
+.button-cancel:hover {
+  background-color: #e74c3c;
   color: #eeeeee;
 }
 
 /* ADD NEW STORY FORM */
-.add-new-story-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.add-new-story-page {
+  padding: 3rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #eeeeee;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-new-story-form h1 {
+.add-new-story-title {
   text-align: center;
   font-size: 2rem;
   color: #222831;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.form-container {
-  background-color: #eeeeee;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  max-width: 600px;
-  margin-inline: auto;
+.add-new-story-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-textarea {
+.description-control,
+.photo-control {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.description-label,
+.photo-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #393e46;
+}
+
+.description-textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -450,22 +464,41 @@ textarea {
   background-color: #ffffff;
 }
 
-textarea:focus {
+.description-textarea:focus {
   border-color: #222831;
   box-shadow: 0 0 0 3px rgba(34, 40, 49, 0.15);
   outline: none;
 }
 
-.container-form-upload {
+.photo-upload-container {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.container-form-upload .btn {
+.upload-button,
+.camera-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #00adb5;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.upload-button:hover,
+.camera-button:hover {
+  background-color: #007f8a;
+}
+
+.photo-input-container input {
+  display: none;
 }
 
 .camera-container {
@@ -478,7 +511,7 @@ textarea:focus {
 
 .camera-video {
   width: 100%;
-  max-width: 400px;
+  max-width: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -486,7 +519,7 @@ textarea:focus {
 .camera-canvas {
   display: none;
   width: 100%;
-  max-width: 400px;
+  max-width: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -497,14 +530,37 @@ textarea:focus {
   gap: 1rem;
 }
 
+.camera-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.capture-button {
+  background-color: #00adb5;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.capture-button:hover {
+  background-color: #007f8a;
+}
+
 .photo-preview {
   margin-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  height: 200px;
+  max-width: auto;
+  height: auto;
   border: 1px dashed #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
