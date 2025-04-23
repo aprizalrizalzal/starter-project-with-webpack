@@ -1,6 +1,7 @@
 import LoginPresenter from "./login-presenter";
 import * as StoryAPI from "../../../data/api";
 import * as AuthModel from "../../../utils/auth";
+import modalError from "../../../utils/componenet/modal-error";
 
 export default class LoginPage {
   #presenter = null;
@@ -8,33 +9,38 @@ export default class LoginPage {
   async render() {
     return `
       <section class="container">
+
         <div class="login">
-          <h1 class="title">Masuk</h1>
+
+          <h1 class="login-title">Masuk</h1>
 
           <form id="login-form" class="login-form">
-            <div class="form-control">
-              <label for="email-input" class="email">Email</label>
-
-              <div class="form-input">
+  
+            <div class="email-form-control">
+              <label for="email-input" class="email-label">Email</label>
+              <div class="email-input-container">
                 <input id="email-input" type="email" name="email" autocomplete="email" placeholder="email@example.com">
               </div>
             </div>
-            <div class="form-control">
-              <label for="password-input" class="password">Kata sandi</label>
 
-              <div class="form-input">
+            <div class="password-form-control">
+              <label for="password-input" class="password-label">Kata sandi</label>
+              <div class="password-input-container">
                 <input id="password-input" type="password" name="password" autocomplete="current-password" placeholder="Kata sandi">
               </div>
             </div>
-            
-            <div class="form-buttons">
-              <div id="submit-button-container">
-                <button class="btn" type="submit">Masuk</button>
+          
+            <div class="form-buttons-container">
+              <div id="submit-button-container" class="submit-button-container">
+                <button id="submit-button" class="submit-button" type="submit">Masuk</button>
               </div>
-              <p class="do-not-have-account">Belum punya akun? <a href="#/register">Daftar</a></p>
+              <p class="do-not-have-account">Belum punya akun? <a href="#/register" id="register-link" class="register-link">Daftar</a></p>
             </div>
+
           </form>
+
         </div>
+
       </section>
     `;
   }
@@ -71,34 +77,14 @@ export default class LoginPage {
   }
 
   loginFailed(message) {
-    const overlay = document.createElement("div");
-    overlay.classList.add("modal-overlay");
-
-    const errorPopup = document.createElement("div");
-    errorPopup.classList.add("modal-popup");
-
-    const errorMessage = document.createElement("p");
-    errorMessage.textContent = `Error. ${message}. `;
-
-    const closeButton = document.createElement("a");
-    closeButton.textContent = "Tutup";
-    closeButton.classList.add("btn");
-
-    closeButton.addEventListener("click", () => {
-      document.body.removeChild(errorPopup);
-      document.body.removeChild(overlay);
-    });
-
-    errorPopup.appendChild(errorMessage);
-    errorPopup.appendChild(closeButton);
-
-    document.body.appendChild(overlay);
-    document.body.appendChild(errorPopup);
+    console.log(message);
+    
+    modalError(message);
   }
 
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button class="btn" type="submit" disabled>
+      <button id="submit-button" class="submit-button" type="submit">
         Masuk <i class="fa-solid fa-circle-notch fa-spin"></i>
       </button>
     `;
@@ -106,7 +92,9 @@ export default class LoginPage {
 
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button class="btn" type="submit">Masuk</button>
+      <button id="submit-button" class="submit-button" type="submit">
+        Masuk
+      </button>
     `;
   }
 }

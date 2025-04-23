@@ -1,5 +1,6 @@
 import RegisterPresenter from "./register-presenter";
 import * as StoryAPI from "../../../data/api";
+import modalError from "../../../utils/componenet/modal-error";
 
 export default class RegisterPage {
   #presenter = null;
@@ -7,40 +8,45 @@ export default class RegisterPage {
   async render() {
     return `
       <section class="container">
+
         <div class="register">
-          <h1 class="title">Daftar</h1>
+        
+          <h1 class="register-title">Daftar</h1>
 
           <form id="register-form" class="register-form">
-            <div class="form-control">
-              <label for="name-input" class="name">Nama</label>
+        
+            <div class="name-form-control">
+              <label for="name-input" class="name-label">Nama</label>
+              <div class="name-input-container">
+                <input id="name-input" type="text" name="name" autocomplete="name" placeholder="Nama lengkap" class="form-input">
+              </div>
+            </div>
+          
+            <div class="email-form-control">
+              <label for="email-input" class="email-label">Email</label>
+              <div class="email-input-container">
+                <input id="email-input" type="email" name="email" autocomplete="email" placeholder="email@example.com" class="form-input">
+              </div>
+            </div>
+          
+            <div class="password-form-control">
+              <label for="password-input" class="password-label">Kata sandi</label>
+              <div class="password-input-container">
+                <input id="password-input" type="password" name="password" autocomplete="current-password" placeholder="Kata sandi" class="form-input">
+              </div>
+            </div>
+          
+            <div class="form-buttons-container">
+              <div id="submit-button-container" class="submit-button-container">
+                <button id="submit-button" class="submit-button" type="submit">Daftar</button>
+              </div>
+              <p class="have-account">Sudah punya akun? <a href="#/login" id="login-link" class="login-link">Masuk</a></p>
+            </div>
 
-              <div class="form-input">
-                <input id="name-input" type="text" name="name" autocomplete="name" placeholder="Nama lengkap">
-              </div>
-            </div>
-            <div class="form-control">
-              <label for="email-input" class="email">Email</label>
-
-              <div class="form-input">
-                <input id="email-input" type="email" name="email" autocomplete="email" placeholder="email@example.com">
-              </div>
-            </div>
-            <div class="form-control">
-              <label for="password-input" class="password">Kata sandi</label>
-
-              <div class="form-input">
-                <input id="password-input" type="password" name="password" autocomplete="current-password" placeholder="Kata sandi">
-              </div>
-            </div>
-            
-            <div class="form-buttons">
-              <div id="submit-button-container">
-                <button class="btn" type="submit">Daftar</button>
-              </div>
-              <p class="already-have-account">Sudah punya akun? <a href="#/login">Masuk</a></p>
-            </div>
           </form>
+
         </div>
+
       </section>
     `;
   }
@@ -77,42 +83,24 @@ export default class RegisterPage {
   }
 
   registeredFailed(message) {
-    const overlay = document.createElement("div");
-    overlay.classList.add("modal-overlay");
-
-    const errorPopup = document.createElement("div");
-    errorPopup.classList.add("modal-popup");
-
-    const errorMessage = document.createElement("p");
-    errorMessage.textContent = `Error. ${message}. `;
-
-    const closeButton = document.createElement("a");
-    closeButton.textContent = "Tutup";
-    closeButton.classList.add("btn");
-
-    closeButton.addEventListener("click", () => {
-      document.body.removeChild(errorPopup);
-      document.body.removeChild(overlay);
-    });
-
-    errorPopup.appendChild(errorMessage);
-    errorPopup.appendChild(closeButton);
-
-    document.body.appendChild(overlay);
-    document.body.appendChild(errorPopup);
+    console.log(message);
+    
+    modalError(message);
   }
 
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button class="btn" type="submit" disabled>
-        <i class="fas fa-spinner loader-button"></i> Daftar
+      <button id="submit-button" class="submit-button" type="submit">
+        Daftar <i class="fas fa-spinner loader-button"></i>
       </button>
     `;
   }
 
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button class="btn" type="submit">Daftar</button>
+      <button id="submit-button" class="submit-button" type="submit">
+        Daftar
+      </button>
     `;
   }
 }
