@@ -82,8 +82,8 @@ export default class AddNewStoryPage {
                     <div id="map-loading"></div>
                   </div>
                   <div class="location-input-container">
-                    <input type="number" name="latitude" value="">
-                    <input type="number" name="longitude" value="">
+                    <input type="number" name="latitude" value="" disabled>
+                    <input type="number" name="longitude" value="" disabled>
                   </div>
                 </div>
               </div>
@@ -240,6 +240,7 @@ export default class AddNewStoryPage {
     // Event untuk memperbarui koordinat saat marker dipindahkan
     draggableMarker.on('move', (event) => {
       const coordinate = event.target.getLatLng();
+      this.#map.changeCamera(coordinate);
       this.#updateMapCoordinates(coordinate.lat, coordinate.lng);
     });
 
