@@ -77,7 +77,29 @@ export default class RegisterPage {
   }
 
   registeredFailed(message) {
-    alert(message);
+    const overlay = document.createElement("div");
+    overlay.classList.add("modal-overlay");
+
+    const errorPopup = document.createElement("div");
+    errorPopup.classList.add("modal-popup");
+
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = `Error. ${message}. `;
+
+    const closeButton = document.createElement("a");
+    closeButton.textContent = "Tutup";
+    closeButton.classList.add("btn");
+
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(errorPopup);
+      document.body.removeChild(overlay);
+    });
+
+    errorPopup.appendChild(errorMessage);
+    errorPopup.appendChild(closeButton);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(errorPopup);
   }
 
   showSubmitLoadingButton() {

@@ -78,7 +78,7 @@ export default class LoginPage {
     errorPopup.classList.add("modal-popup");
 
     const errorMessage = document.createElement("p");
-    errorMessage.textContent = `Coba lagi. ${message}. `;
+    errorMessage.textContent = `Error. ${message}. `;
 
     const closeButton = document.createElement("a");
     closeButton.textContent = "Tutup";
