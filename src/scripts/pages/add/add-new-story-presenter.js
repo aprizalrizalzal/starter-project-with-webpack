@@ -23,9 +23,9 @@ export default class AddNewStoryPresenter {
         return;
       }
 
-      this.#view.storeSuccessfully(response.message, response.data)
+      this.#view.storeSuccessfully(response.message, response.data);
     } catch (error) {
-        this.#view.storeFailed(error.message);
+      this.#view.storeFailed(error.message);
     } finally {
       this.#view.hideSubmitLoadingButton();
     }

@@ -53,22 +53,17 @@ export async function getAllStories() {
   };
 }
 
-export async function storeAddNewStory({
-  description,
-  photo,
-  lat,
-  lon,
-}) {
+export async function storeAddNewStory({ description, photo, lat, lon }) {
   const accessToken = getAccessToken();
 
   const formData = new FormData();
-  formData.set('description', description);
-  formData.append('photo', photo);
-  formData.set('lat', lat);
-  formData.set('lon', lon);
+  formData.set("description", description);
+  formData.append("photo", photo);
+  formData.set("lat", lat);
+  formData.set("lon", lon);
 
   const fetchResponse = await fetch(ENDPOINTS.STORE_NEW_REPORT, {
-    method: 'POST',
+    method: "POST",
     headers: { Authorization: `Bearer ${accessToken}` },
     body: formData,
   });

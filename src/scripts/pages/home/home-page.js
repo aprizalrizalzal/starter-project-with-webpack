@@ -1,5 +1,5 @@
 import HomePresenter from "./home-presenter";
-import * as StoryAPI from '../../data/api';
+import * as StoryAPI from "../../data/api";
 import { generateCardList } from "../../utils/componenet/card-list";
 
 export default class HomePage {
@@ -28,7 +28,7 @@ export default class HomePage {
 
   takeStoriesList(message, stories) {
     if (stories.length <= 0) {
-      // this.populateReportsListEmpty();
+      this.takeStoriesListError(message);
       return;
     }
 
@@ -36,18 +36,40 @@ export default class HomePage {
       return accumulator.concat(
         generateCardList({
           ...story,
-        }),
+        })
       );
-      
-    }, '');
+    }, "");
 
-    document.getElementById('card-list').innerHTML = `
+    document.getElementById("card-list").innerHTML = `
       <div class="stories">${html}</div>
     `;
   }
 
   takeStoriesListError(message) {
-    // document.getElementById('story-list').innerHTML = generateReportsListErrorTemplate(message);
+      const overlay = document.createElement("div");
+      overlay.classList.add("modal-overlay");
+
+      const errorPopup = document.createElement("div");
+      errorPopup.classList.add("modal-popup");
+
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = `Silakan masuk terlebih dahulu untuk melihat daftar cerita. ${message}. `;
+
+      const loginButton = document.createElement("a");
+      loginButton.textContent = "Masuk";
+      loginButton.href = "#/login";
+      loginButton.classList.add("btn");
+
+      loginButton.addEventListener("click", () => {
+        document.body.removeChild(errorPopup);
+        document.body.removeChild(overlay);
+      });
+
+      errorPopup.appendChild(errorMessage);
+      errorPopup.appendChild(loginButton);
+
+      document.body.appendChild(overlay);
+      document.body.appendChild(errorPopup);
   }
 
   // showLoading() {

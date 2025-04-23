@@ -1,16 +1,16 @@
-import AddNewStoryPresenter from './add-new-story-presenter.js';
-import * as StoryAPI from '../../data/api.js';
-import Camera from '../../utils/camera.js';
+import AddNewStoryPresenter from "./add-new-story-presenter.js";
+import * as StoryAPI from "../../data/api.js";
+import Camera from "../../utils/camera.js";
 
 export default class AddNewStoryPage {
-    #presenter;
-    #form;
-    #camera;
-    #cameraOpen = false;
-    #takePhoto = null; // Ubah menjadi null untuk menyimpan satu foto saja
+  #presenter;
+  #form;
+  #camera;
+  #cameraOpen = false;
+  #takePhoto = null; // Ubah menjadi null untuk menyimpan satu foto saja
 
-    async render() {
-        return `
+  async render() {
+    return `
         <section class="container">
             <h1>Add New Story</h1>
 
@@ -69,117 +69,117 @@ export default class AddNewStoryPage {
             </div>
         </section>
         `;
-    }
+  }
 
-    async afterRender() {
-        this.#presenter = new AddNewStoryPresenter({
-            view: this,
-            model: StoryAPI,
-        });
-        this.#takePhoto = null;
+  async afterRender() {
+    this.#presenter = new AddNewStoryPresenter({
+      view: this,
+      model: StoryAPI,
+    });
+    this.#takePhoto = null;
 
-        this.#setupForm();
-    }
+    this.#setupForm();
+  }
 
-    #setupForm() {
-        this.#form = document.getElementById('add-new-story-form');
-        if (!this.#form) return;
+  #setupForm() {
+    this.#form = document.getElementById("add-new-story-form");
+    if (!this.#form) return;
 
-        this.#form.addEventListener('submit', async (event) => {
-            event.preventDefault();
+    this.#form.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-            const data = {
-                description: this.#form.elements.namedItem('description').value,
-                photo: this.#takePhoto ? [this.#takePhoto.blob] : [],
-            };
+      const data = {
+        description: this.#form.elements.namedItem("description").value,
+        photo: this.#takePhoto ? [this.#takePhoto.blob] : [],
+      };
 
-            await this.#presenter.postNewStory(data);
-        });
+      await this.#presenter.postNewStory(data);
+    });
 
-        const selectFileButton = document.getElementById('select-file');
-        const photoInput = document.getElementById('photo-input');
-        const openCameraButton = document.getElementById('open-camera');
+    const selectFileButton = document.getElementById("select-file");
+    const photoInput = document.getElementById("photo-input");
+    const openCameraButton = document.getElementById("open-camera");
 
-        if (selectFileButton && photoInput) {
-            selectFileButton.addEventListener('click', () => {
-                photoInput.click();
-            });
+    if (selectFileButton && photoInput) {
+      selectFileButton.addEventListener("click", () => {
+        photoInput.click();
+      });
 
-            photoInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    this.#takePhoto = { blob: file };
-                    this.#previewPhoto(file);
-                }
-            });
+      photoInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          this.#takePhoto = { blob: file };
+          this.#previewPhoto(file);
         }
+      });
+    }
 
-        if (openCameraButton) {
-            openCameraButton.addEventListener('click', async () => {
-                if (!this.#cameraOpen) {
-                    this.#setupCamera();
-                    await this.#camera.launch();
-                    this.#cameraOpen = true;
-                }
-            });
+    if (openCameraButton) {
+      openCameraButton.addEventListener("click", async () => {
+        if (!this.#cameraOpen) {
+          this.#setupCamera();
+          await this.#camera.launch();
+          this.#cameraOpen = true;
         }
+      });
+    }
+  }
+
+  #setupCamera() {
+    if (!this.#camera) {
+      this.#camera = new Camera({
+        cameraVideo: document.getElementById("camera-video"),
+        cameraSelect: document.getElementById("camera-select"),
+        cameraCanvas: document.getElementById("camera-canvas"),
+      });
     }
 
-    #setupCamera() {
-        if (!this.#camera) {
-            this.#camera = new Camera({
-                cameraVideo: document.getElementById('camera-video'),
-                cameraSelect: document.getElementById('camera-select'),
-                cameraCanvas: document.getElementById('camera-canvas'),
-            });
-        }
+    this.#camera.addCheeseButtonListener("#camera-button", async () => {
+      const photo = await this.#camera.takePhoto();
+      this.#addTakePhoto(photo);
+      this.#previewPhoto(photo);
 
-        this.#camera.addCheeseButtonListener('#camera-button', async () => {
-            const photo = await this.#camera.takePhoto();
-            this.#addTakePhoto(photo);
-            this.#previewPhoto(photo); 
+      if (this.#cameraOpen) {
+        this.#camera.stopCamera();
+        this.#cameraOpen = false;
+      }
+    });
+  }
 
-            if (this.#cameraOpen) {
-                this.#camera.stopCamera();
-                this.#cameraOpen = false;
-            }
-        });
-    }
+  #addTakePhoto(file) {
+    if (!file) return;
 
-    #addTakePhoto(file) {
-        if (!file) return;
+    this.#takePhoto = { blob: file };
 
-        this.#takePhoto = { blob: file };
+    const imgWrapper = document.createElement("div");
+    imgWrapper.classList.add("preview-image-wrapper");
 
-        const imgWrapper = document.createElement('div');
-        imgWrapper.classList.add('preview-image-wrapper');
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.alt = "Preview Foto";
+    img.classList.add("preview-image");
 
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
-        img.alt = 'Preview Foto';
-        img.classList.add('preview-image');
+    imgWrapper.appendChild(img);
+    document.getElementById("photo-preview").appendChild(imgWrapper);
+  }
 
-        imgWrapper.appendChild(img);
-        document.getElementById('photo-preview').appendChild(imgWrapper);
-    }
+  #previewPhoto(file) {
+    const previewContainer = document.getElementById("photo-preview");
+    if (!previewContainer) return;
 
-    #previewPhoto(file) {
-        const previewContainer = document.getElementById('photo-preview');
-        if (!previewContainer) return;
+    previewContainer.innerHTML = "";
 
-        previewContainer.innerHTML = ''; 
+    this.#takePhoto = { blob: file };
 
-        this.#takePhoto = { blob: file }; 
+    const imgWrapper = document.createElement("div");
+    imgWrapper.classList.add("preview-image-wrapper");
 
-        const imgWrapper = document.createElement('div');
-        imgWrapper.classList.add('preview-image-wrapper');
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.alt = "Preview Foto";
+    img.classList.add("preview-image");
 
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
-        img.alt = 'Preview Foto';
-        img.classList.add('preview-image');
-
-        imgWrapper.appendChild(img);
-        previewContainer.appendChild(imgWrapper);
-    }
+    imgWrapper.appendChild(img);
+    previewContainer.appendChild(imgWrapper);
+  }
 }

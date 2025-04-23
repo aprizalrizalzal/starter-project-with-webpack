@@ -1,6 +1,6 @@
-import LoginPresenter from './login-presenter';
-import * as StoryAPI from '../../../data/api';
-import * as AuthModel from '../../../utils/auth';
+import LoginPresenter from "./login-presenter";
+import * as StoryAPI from "../../../data/api";
+import * as AuthModel from "../../../utils/auth";
 
 export default class LoginPage {
   #presenter = null;
@@ -50,30 +50,54 @@ export default class LoginPage {
   }
 
   #setupForm() {
-    document.getElementById('login-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
+    document
+      .getElementById("login-form")
+      .addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-      const data = {
-        email: document.getElementById('email-input').value,
-        password: document.getElementById('password-input').value,
-      };
-      await this.#presenter.getLogin(data);
-    });
+        const data = {
+          email: document.getElementById("email-input").value,
+          password: document.getElementById("password-input").value,
+        };
+        await this.#presenter.getLogin(data);
+      });
   }
 
   loginSuccessfully(message) {
     console.log(message);
 
     // Redirect
-    location.hash = '/';
+    location.hash = "/";
   }
 
   loginFailed(message) {
-    alert(message);
+    const overlay = document.createElement("div");
+    overlay.classList.add("modal-overlay");
+
+    const errorPopup = document.createElement("div");
+    errorPopup.classList.add("modal-popup");
+
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent = `Coba lagi. ${message}. `;
+
+    const closeButton = document.createElement("a");
+    closeButton.textContent = "Tutup";
+    closeButton.classList.add("btn");
+
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(errorPopup);
+      document.body.removeChild(overlay);
+    });
+
+    errorPopup.appendChild(errorMessage);
+    errorPopup.appendChild(closeButton);
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(errorPopup);
   }
 
   showSubmitLoadingButton() {
-    document.getElementById('submit-button-container').innerHTML = `
+    document.getElementById("submit-button-container").innerHTML = `
       <button class="btn" type="submit" disabled>
         Masuk <i class="fa-solid fa-circle-notch fa-spin"></i>
       </button>
@@ -81,7 +105,7 @@ export default class LoginPage {
   }
 
   hideSubmitLoadingButton() {
-    document.getElementById('submit-button-container').innerHTML = `
+    document.getElementById("submit-button-container").innerHTML = `
       <button class="btn" type="submit">Masuk</button>
     `;
   }
