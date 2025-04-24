@@ -8,18 +8,19 @@ export default class AddNewStoryPresenter {
   }
 
   async showMap() {
-    // this.#view.showMapLoading();
+    this.#view.showMapLoading();
     try {
       await this.#view.setupMap();
     } catch (error) {
-      console.error('showMap: error:', error);
+      // this.#view.showErrorMessage(error.message);
     } finally {
-      // this.#view.hideMapLoading();
+      this.#view.hideMapLoading();
     }
   }
 
   // Fungsi untuk mengirim cerita baru ke model
   async postNewStory({ description, photo, lat, lon }) {
+    this.#view.showSubmitLoadingButton();
     try {
       const data = {
         description: description,
@@ -31,15 +32,15 @@ export default class AddNewStoryPresenter {
       const response = await this.#model.storeAddNewStory(data);
 
       if (!response.ok) {
-        // this.#view.storeFailed(response.message);
+        this.#view.storeFailed(response.message);
         return;
       }
 
       this.#view.storeSuccessfully(response.message, response.data);
     } catch (error) {
-      // this.#view.storeFailed(error.message);
+      this.#view.storeFailed(error.message);
     } finally {
-      // this.#view.hideSubmitLoadingButton();
+      this.#view.hideSubmitLoadingButton();
     }
   }
 }

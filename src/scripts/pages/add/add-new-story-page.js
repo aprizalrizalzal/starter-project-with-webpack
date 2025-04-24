@@ -3,6 +3,7 @@ import * as StoryAPI from "../../data/api.js";
 import Camera from "../../utils/media/camera.js";
 import Map from "../../utils/leaflet/map.js";
 import { convertBase64ToBlob } from "../../utils/index.js";
+import modalError from "../../utils/componenet/modal-error.js";
 
 export default class AddNewStoryPage {
   #presenter;
@@ -40,7 +41,7 @@ export default class AddNewStoryPage {
                 <label for="photo-input" class="photo-label">Photo</label>
                 <div class="photo-upload-container">
                   <button id="select-file" class="upload-button" type="button">
-                    <i class="fa-solid fa-upload"></i> Upload Image
+                    Upload Image
                   </button>
                   <div class="photo-input-container">
                     <input
@@ -54,7 +55,7 @@ export default class AddNewStoryPage {
                     />
                   </div>
                   <button id="open-camera" class="camera-button" type="button">
-                    <i class="fa-solid fa-camera"></i> Open Camera
+                    Open Camera
                   </button>
                 </div>
 
@@ -257,5 +258,62 @@ export default class AddNewStoryPage {
   #updateMapCoordinates(lat, lng) {
     this.#form.elements.namedItem('latitude').value = lat;
     this.#form.elements.namedItem('longitude').value = lng;
+  }
+
+  // Menampilkan loading saat peta sedang dimuat
+  showMapLoading() {
+    const mapLoading = document.getElementById("map-loading");
+    if (mapLoading) {
+      mapLoading.innerHTML = `
+        <div class="loading-spinner">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </div>
+      `;
+    }
+  }
+
+  // Menyembunyikan loading saat peta selesai dimuat
+  hideMapLoading() {
+    const mapLoading = document.getElementById("map-loading");
+    if (mapLoading) {
+      mapLoading.innerHTML = "";
+    }
+  }
+
+  // Menampilkan pesan kesalahan saat peta gagal dimuat
+  mapFailed(message) {
+    const mapLoading = document.getElementById("map-loading");
+    if (mapLoading) {
+      mapLoading.innerHTML = `
+        <div class="error-message">${message}</div>
+      `;
+    }
+  }
+
+  // Menampilkan pesan sukses saat cerita berhasil disimpan
+  storeSuccessfully(message, data) {
+    console.log(message, data);
+    location.hash = "/";
+  }
+
+  // Menampilkan pesan kesalahan saat penyimpanan cerita gagal
+  storeFailed(message) {
+    modalError(message);
+  }
+
+  // Menampilkan loading saat tombol submit ditekan
+  showSubmitLoadingButton() {
+    document.getElementById("submit-button-container").innerHTML = `
+        <button id="submit-button" class="submit-button" type="submit" disabled>
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+        </button>
+      `;
+  }
+
+  // Menyembunyikan loading setelah tombol submit selesai
+  hideSubmitLoadingButton() {
+    document.getElementById("submit-button-container").innerHTML = `
+        <button class="submit-button" type="submit">Buat Cerita</button>
+      `;
   }
 }

@@ -75,8 +75,6 @@ export default class LoginPage {
   // Method yang dipanggil ketika login berhasil
   loginSuccessfully(message) {
     console.log(message);
-
-    // Redirect ke halaman utama
     location.hash = "/";
   }
 
