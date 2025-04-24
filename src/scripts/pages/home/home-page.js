@@ -1,6 +1,7 @@
 import HomePresenter from "./home-presenter";
 import * as StoryAPI from "../../data/api";
 import { generateCardList } from "../../utils/componenet/card-list";
+import modalError from "../../utils/componenet/modal-error";
 
 export default class HomePage {
   #presenter = null;
@@ -13,6 +14,7 @@ export default class HomePage {
         <div class="card-container">
           <div id="card-list"></div>
         </div>
+        <div id="loading"></div>
       </section>
     `;
   }
@@ -28,7 +30,7 @@ export default class HomePage {
 
   takeStoriesList(message, stories) {
     if (stories.length <= 0) {
-      this.takeStoriesListError(message);
+      this.storiesListError(message);
       return;
     }
 
@@ -45,39 +47,27 @@ export default class HomePage {
     `;
   }
 
-  takeStoriesListError(message) {
-      const overlay = document.createElement("div");
-      overlay.classList.add("modal-overlay");
-
-      const errorPopup = document.createElement("div");
-      errorPopup.classList.add("modal-popup");
-
-      const errorMessage = document.createElement("p");
-      errorMessage.textContent = `Silakan masuk terlebih dahulu untuk melihat daftar cerita. ${message}. `;
-
-      const loginButton = document.createElement("a");
-      loginButton.textContent = "Masuk";
-      loginButton.href = "#/login";
-      loginButton.classList.add("button");
-
-      loginButton.addEventListener("click", () => {
-        document.body.removeChild(errorPopup);
-        document.body.removeChild(overlay);
-      });
-
-      errorPopup.appendChild(errorMessage);
-      errorPopup.appendChild(loginButton);
-
-      document.body.appendChild(overlay);
-      document.body.appendChild(errorPopup);
+  storiesListError(message) {
+      modalError(message + ". Silahkan Masuk untuk melihat cerita");
   }
 
-  // showLoading() {
-  //     document.getElementById('card-list-loading-container').innerHTML =
-  //       generateLoaderAbsoluteTemplate();
-  //   }
+  // Menampilkan loading saat peta sedang dimuat
+  showLoading() {
+    const mapLoading = document.getElementById("loading");
+    if (mapLoading) {
+      mapLoading.innerHTML = `
+        <div class="loading-spinner">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
+        </div>
+      `;
+    }
+  }
 
-  // hideLoading() {
-  //   document.getElementById('card-list-loading-container').innerHTML = '';
-  // }
+  // Menyembunyikan loading saat peta selesai dimuat
+  hideLoading() {
+    const mapLoading = document.getElementById("loading");
+    if (mapLoading) {
+      mapLoading.innerHTML = "";
+    }
+  }
 }
