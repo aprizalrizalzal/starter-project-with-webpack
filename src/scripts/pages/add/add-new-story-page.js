@@ -2,6 +2,7 @@ import AddNewStoryPresenter from "./add-new-story-presenter.js";
 import * as StoryAPI from "../../data/api.js";
 import Camera from "../../utils/media/camera.js";
 import Map from "../../utils/leaflet/map.js";
+import { convertBase64ToBlob } from "../../utils/index.js";
 
 export default class AddNewStoryPage {
   #presenter;
@@ -121,8 +122,8 @@ export default class AddNewStoryPage {
       const data = {
         description: this.#form.elements.namedItem("description").value,
         photo: this.#takePhoto ? [this.#takePhoto.blob] : [],
-        latitude: this.#form.elements.namedItem('latitude').value,
-        longitude: this.#form.elements.namedItem('longitude').value,
+        lat: this.#form.elements.namedItem('latitude').value,
+        lon: this.#form.elements.namedItem('longitude').value,
       };
 
       await this.#presenter.postNewStory(data);
@@ -186,12 +187,12 @@ export default class AddNewStoryPage {
     });
   }
 
-  // Menambahkan foto yang diambil dari kamera
+  // Menambahkan foto yang diambil dari kamera atau base64
   async #addTakePhoto(image) {
     let blob = image;
 
-    if (image instanceof String) {
-      blob = await convertBase64ToBlob(image, "image/png");
+    if (typeof image === "string") {
+      blob = convertBase64ToBlob(image, "image/png");
     }
 
     const fileName = `photo-${Date.now()}.png`;

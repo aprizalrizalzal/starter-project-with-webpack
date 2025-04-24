@@ -31,15 +31,15 @@ export default class AddNewStoryPresenter {
       const response = await this.#model.storeAddNewStory(data);
 
       if (!response.ok) {
-        this.#view.storeFailed(response.message);
+        // this.#view.storeFailed(response.message);
         return;
       }
 
       this.#view.storeSuccessfully(response.message, response.data);
     } catch (error) {
-      this.#view.storeFailed(error.message);
+      // this.#view.storeFailed(error.message);
     } finally {
-      this.#view.hideSubmitLoadingButton();
+      // this.#view.hideSubmitLoadingButton();
     }
   }
 }

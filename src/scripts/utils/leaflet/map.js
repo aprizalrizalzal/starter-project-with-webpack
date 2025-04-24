@@ -46,7 +46,7 @@ export default class Map {
 
     // Membuat instance Map baru secara asinkron.
     static async build(selector, options = {}) {
-        const jakartaCoordinate = [-6.2, 106.816666];
+        const Mataram = [-8.585310105584256, 116.09825140820938];
 
         if ('center' in options && options.center) {
             return new Map(selector, options);
@@ -66,14 +66,14 @@ export default class Map {
 
                 return new Map(selector, {
                     ...options,
-                    center: jakartaCoordinate,
+                    center: Mataram,
                 });
             }
         }
 
         return new Map(selector, {
             ...options,
-            center: jakartaCoordinate,
+            center: Mataram,
         });
     }
 
