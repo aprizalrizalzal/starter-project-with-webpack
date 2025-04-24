@@ -81,15 +81,11 @@ export default class RegisterPage {
   // Metode yang dipanggil ketika pendaftaran berhasil
   registeredSuccessfully(message) {
     console.log(message);
-
-    // Redirect ke halaman login
     location.hash = "/login";
   }
 
   // Metode yang dipanggil ketika pendaftaran gagal
   registeredFailed(message) {
-    console.log(message);
-    
     modalError(message);
   }
 

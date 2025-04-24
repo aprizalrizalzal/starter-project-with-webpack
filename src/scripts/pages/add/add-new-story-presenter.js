@@ -7,17 +7,6 @@ export default class AddNewStoryPresenter {
     this.#model = model;
   }
 
-  async showMap() {
-    this.#view.showMapLoading();
-    try {
-      await this.#view.setupMap();
-    } catch (error) {
-      // this.#view.showErrorMessage(error.message);
-    } finally {
-      this.#view.hideMapLoading();
-    }
-  }
-
   // Fungsi untuk mengirim cerita baru ke model
   async postNewStory({ description, photo, lat, lon }) {
     this.#view.showSubmitLoadingButton();
@@ -41,6 +30,17 @@ export default class AddNewStoryPresenter {
       this.#view.storeFailed(error.message);
     } finally {
       this.#view.hideSubmitLoadingButton();
+    }
+  }
+
+  async showMap() {
+    this.#view.showMapLoading();
+    try {
+      await this.#view.setupMap();
+    } catch (error) {
+      this.#view.mapFailed(error.message);
+    } finally {
+      this.#view.hideMapLoading();
     }
   }
 }

@@ -80,8 +80,6 @@ export default class LoginPage {
 
   // Method yang dipanggil ketika login gagal
   loginFailed(message) {
-    console.log(message);
-    
     modalError(message);
   }
 

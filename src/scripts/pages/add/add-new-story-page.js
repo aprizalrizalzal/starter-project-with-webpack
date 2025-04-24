@@ -19,7 +19,6 @@ export default class AddNewStoryPage {
       <section class="container">
         <div class="add-new-story-page">
           <h1 class="add-new-story-title">Add New Story</h1>
-
           <div class="form-container">
             <form id="add-new-story-form" class="add-new-story-form" enctype="multipart/form-data">
               <!-- Deskripsi -->
@@ -77,7 +76,6 @@ export default class AddNewStoryPage {
               <!-- Pratinjau Peta -->
               <div class="map-control">
                 <div class="map-title">Lokasi</div>
-
                 <div class="map-container">
                   <div class="map-location-container">
                     <div id="map" class="map"></div>
@@ -282,12 +280,7 @@ export default class AddNewStoryPage {
 
   // Menampilkan pesan kesalahan saat peta gagal dimuat
   mapFailed(message) {
-    const mapLoading = document.getElementById("map-loading");
-    if (mapLoading) {
-      mapLoading.innerHTML = `
-        <div class="error-message">${message}</div>
-      `;
-    }
+    modalError(message);
   }
 
   // Menampilkan pesan sukses saat cerita berhasil disimpan

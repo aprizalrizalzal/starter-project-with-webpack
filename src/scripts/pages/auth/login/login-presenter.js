@@ -4,36 +4,29 @@ export default class LoginPresenter {
   #authModel;
 
   constructor({ view, model, authModel }) {
-    // Konstruktor untuk menginisialisasi view, model, dan authModel
     this.#view = view;
     this.#model = model;
     this.#authModel = authModel;
   }
 
+  // Fungsi untuk menangani proses login
   async getLogin({ email, password }) {
-    // Metode untuk menangani proses login
-    this.#view.showSubmitLoadingButton(); // Menampilkan tombol loading saat proses login dimulai
+    this.#view.showSubmitLoadingButton(); 
     try {
-      const response = await this.#model.getLogin({ email, password }); // Memanggil model untuk melakukan login
+      const response = await this.#model.getLogin({ email, password }); 
 
       if (!response.ok) {
-        // Jika respons tidak berhasil, tampilkan pesan error
-        console.error("getLogin: response:", response);
-        this.#view.loginFailed(response.message); // Menampilkan pesan login gagal
+        this.#view.loginFailed(response.message); 
         return;
       }
 
-      // Menyimpan token akses ke authModel jika login berhasil
       this.#authModel.putAccessToken(response.loginResult.token);
 
-      // Menampilkan pesan sukses login
       this.#view.loginSuccessfully(response.message, response.data);
     } catch (error) {
-      // Menangani error yang terjadi selama proses login
-      console.error("getLogin: error:", error);
-      this.#view.loginFailed(error.message); // Menampilkan pesan login gagal
+      this.#view.loginFailed(error.message); 
     } finally {
-      this.#view.hideSubmitLoadingButton(); // Menyembunyikan tombol loading setelah proses selesai
+      this.#view.hideSubmitLoadingButton(); 
     }
   }
 }
