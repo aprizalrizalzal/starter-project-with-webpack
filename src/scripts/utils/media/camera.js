@@ -120,14 +120,7 @@ export default class Camera {
   }
 
   async launch() {
-    const stream = await this.#getStream();
-    if (!stream) {
-      this.#streaming = false;
-      if (this.#cameraButtonElement) this.#cameraButtonElement.disabled = true;
-      return;
-    }
-
-    this.#currentStream = stream;
+    this.#currentStream = await this.#getStream();
     Camera.addNewStream(this.#currentStream);
 
     this.#cameraVideoElement.srcObject = this.#currentStream;
