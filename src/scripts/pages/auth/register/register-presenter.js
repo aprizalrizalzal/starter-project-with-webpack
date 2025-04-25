@@ -8,17 +8,17 @@ export default class RegisterPresenter {
   }
 
   // Fungsi untuk menangani proses register
-  async getRegistered({ name, email, password }) {
+  async storeRegistered({ name, email, password }) {
     this.#view.showSubmitLoadingButton();
     try {
-      const response = await this.#model.getRegistered({
+      const response = await this.#model.storeRegistered({
         name,
         email,
         password,
       });
 
       if (!response.ok) {
-        console.error("getRegistered: response:", response);
+        console.error("storeRegistered: response:", response);
         this.#view.registeredFailed(response.message);
         return;
       }

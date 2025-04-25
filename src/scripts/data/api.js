@@ -5,9 +5,10 @@ const ENDPOINTS = {
   REGISTER: `${CONFIG.BASE_URL}/register`,
   LOGIN: `${CONFIG.BASE_URL}/login`,
   STORIES: `${CONFIG.BASE_URL}/stories`,
+  STORIES_DETAIL: (id)=> `${CONFIG.BASE_URL}/stories/${id}`,
 };
 
-export async function getRegistered({ name, email, password }) {
+export async function storeRegistered({ name, email, password }) {
   const data = JSON.stringify({ name, email, password });
 
   const fetchResponse = await fetch(ENDPOINTS.REGISTER, {
@@ -23,7 +24,7 @@ export async function getRegistered({ name, email, password }) {
   };
 }
 
-export async function getLogin({ email, password }) {
+export async function postLogin({ email, password }) {
   const data = JSON.stringify({ email, password });
 
   const fetchResponse = await fetch(ENDPOINTS.LOGIN, {
@@ -43,6 +44,20 @@ export async function getAllStories() {
   const accessToken = getAccessToken();
 
   const fetchResponse = await fetch(ENDPOINTS.STORIES, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const json = await fetchResponse.json();
+
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
+}
+
+export async function getStoriesById(id) {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.STORIES_DETAIL(id), {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   const json = await fetchResponse.json();

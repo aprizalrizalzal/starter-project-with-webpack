@@ -10,10 +10,10 @@ export default class LoginPresenter {
   }
 
   // Fungsi untuk menangani proses login
-  async getLogin({ email, password }) {
+  async postLogin({ email, password }) {
     this.#view.showSubmitLoadingButton(); 
     try {
-      const response = await this.#model.getLogin({ email, password }); 
+      const response = await this.#model.postLogin({ email, password }); 
 
       if (!response.ok) {
         this.#view.loginFailed(response.message); 

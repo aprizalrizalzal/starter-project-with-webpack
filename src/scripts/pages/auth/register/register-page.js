@@ -74,7 +74,7 @@ export default class RegisterPage {
           email: document.getElementById("email-input").value,
           password: document.getElementById("password-input").value,
         };
-        await this.#presenter.getRegistered(data);
+        await this.#presenter.storeRegistered(data);
       });
   }
 

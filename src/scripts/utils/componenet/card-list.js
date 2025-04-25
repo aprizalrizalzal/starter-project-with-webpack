@@ -9,7 +9,7 @@ export function generateCardList(story) {
             <small>${new Date(story.createdAt).toLocaleDateString()}</small><br>
             <small>${story.lat}, ${story.lon}</small>
           </div>
-          <button class="card-detail-button" onclick="viewDetail(${story.id})">Lihat Detail</button>
+          <a href="#/stories/${story.id}" class="card-detail-link">Lihat Detail</a>
         </div>
       </div>
     `;
