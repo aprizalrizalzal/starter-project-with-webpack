@@ -10,6 +10,10 @@ export default class Map {
 
   // Mendapatkan nama tempat berdasarkan latitude dan longitude menggunakan MapTiler API.
   static async getPlaceNameByCoordinate(latitude, longitude) {
+    if (latitude == null || longitude == null) {
+      return "Lokasi tidak diketahui";
+    }
+
     try {
       const url = new URL(
         `https://api.maptiler.com/geocoding/${longitude},${latitude}.json`
