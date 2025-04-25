@@ -1,13 +1,12 @@
-import { Map } from '../utils/map.js';
+import Map from '../utils/leaflet/map.js';
 
-export async function reportMapper(stories) {
+export async function storyMapper(story) {
     return {
-      ...stories,
+      ...story, 
       location: {
-        ...stories.location,
         placeName: await Map.getPlaceNameByCoordinate(
-          stories.location.latitude,
-          stories.location.longitude,
+          story.lat,
+          story.lon,
         ),
       },
     };

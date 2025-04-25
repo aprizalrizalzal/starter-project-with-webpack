@@ -1,3 +1,5 @@
+import { storyMapper } from "../../data/api-mapper";
+
 export default class DetailPresenter {
     #storyId;
     #view;
@@ -19,7 +21,9 @@ export default class DetailPresenter {
                 return;
             }
 
-            this.#view.takeStoriesDetail(response.message, response.story);
+            const story = await storyMapper(response.story)
+
+            this.#view.takeStoriesDetail(response.message, story);
         } catch (error) {
             this.#view.storiesListError(error.message);
         } finally {

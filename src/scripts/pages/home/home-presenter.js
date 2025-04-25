@@ -1,3 +1,5 @@
+import { storyMapper } from "../../data/api-mapper";
+
 export default class HomePresenter {
   #view;
   #model;
@@ -17,7 +19,11 @@ export default class HomePresenter {
         return;
       }
 
-      this.#view.takeStoriesList(response.message, response.listStory);
+      const listStory = await Promise.all(
+        response.listStory.map(async (story) => await storyMapper(story))
+      );
+
+      this.#view.takeStoriesList(response.message, listStory);
     } catch (error) {
       this.#view.storiesListError(error.message);
     } finally {

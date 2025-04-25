@@ -7,7 +7,7 @@ export function generateCardList(story) {
           <p class="card-description">${story.description}</p>
           <div class="card-meta">
             <small>${new Date(story.createdAt).toLocaleDateString()}</small><br>
-            <small>${story.lat}, ${story.lon}</small>
+            <small>${story.location.placeName}</small>
           </div>
           <a href="#/stories/${story.id}" class="card-detail-link">Lihat Detail</a>
         </div>
