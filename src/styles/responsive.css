@@ -1,98 +1,99 @@
 /* RESPONSIVE NAVIGATION */
 @media screen and (min-width: 1000px) {
-    .navigation-drawer {
-      min-height: auto;
-      width: auto;
-      padding: 0;
-      background-color: transparent;
-      flex-direction: row;
-      justify-content: space-between;
-      position: static;
-      box-shadow: none;
-      transform: translateX(0);
-    }
-  
-    .nav-list {
-      flex-direction: row;
-    }
-  
-    .nav-list li a {
-      display: inline-block;
-      color: #eeeeee;
-    }
-  
-    .nav-list li a::after {
-      background-color: #eeeeee;
-    }
-  
-    .nav-list li a:hover {
-      color: #00adb5;
-    }
-  
-    .nav-list li a#add {
-      background-color: transparent;
-      color: #eeeeee;
-    }
-  
-    .nav-list li a#logout {
-      background-color: transparent;
-      color: #eeeeee;
-      border: 0.5px solid #eeeeee;
-    }
-  
-    .nav-list li a#logout:hover {
-      background-color: #e74c3c;
-      color: #eeeeee;
-    }
-  
-    .drawer-button {
-      display: none;
-    }
+  .navigation-drawer {
+    min-height: auto;
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+    flex-direction: row;
+    justify-content: space-between;
+    position: static;
+    box-shadow: none;
+    transform: translateX(0);
   }
-  
-  /* Cards on smaller screens */
-  @media (max-width: 768px) {
-    .container {
-      padding-inline: 16px;
-    }
 
-    .card-container .stories {
-      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-    }
-  
-    .card {
-      max-width: 100%;
-    }
+  .nav-list {
+    flex-direction: row;
   }
-  
-  /* Card text tweak for very small devices */
-  @media (max-width: 500px) {
-    .card-img {
-      height: 140px;
-    }
-  
-    .card-body {
-      padding: 12px;
-    }
-  
-    .card-title {
-      font-size: 1rem;
-    }
-  
-    .card-description {
-      font-size: 0.9rem;
-    }
+
+  .nav-list li a {
+    display: inline-block;
+    color: #eeeeee;
   }
-  
-  /* Login/register padding tweak for mobile */
-  @media (max-width: 600px) {
-    .register,
-    .login {
-      padding: 1.5rem;
-    }
-  
-    .title {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
+
+  .nav-list li a::after {
+    background-color: #eeeeee;
   }
+
+  .nav-list li a:hover {
+    color: #00adb5;
+  }
+
+  .nav-list li a#add {
+    background-color: transparent;
+    color: #eeeeee;
+  }
+
+  .nav-list li a#logout {
+    background-color: transparent;
+    color: #eeeeee;
+    border: 0.5px solid #eeeeee;
+  }
+
+  .nav-list li a#logout:hover {
+    background-color: #e74c3c;
+    color: #eeeeee;
+  }
+
+  .drawer-button {
+    display: none;
+  }
+}
+
+/* Cards on smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 16px;
+  }
+
+  .card-container .stories {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
+
+/* Card text tweak for very small devices */
+@media (max-width: 500px) {
+  .card-img {
+    height: 140px;
+  }
+
+  .card-body {
+    padding: 12px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+  }
+}
+
+/* Login/register padding tweak for mobile */
+@media (max-width: 600px) {
+  .register,
+  .login {
+    padding: 1.5rem;
+  }
+
+  .login-title,
+  .register-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}

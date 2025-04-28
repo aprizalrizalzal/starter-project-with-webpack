@@ -17,6 +17,9 @@ export default class AddNewStoryPage {
   async render() {
     return `
       <section class="container">
+        <button class="button-back" id="button-back" aria-label="Kembali Ke Halaman Sebelumnya">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
         <div class="add-new-story-page">
           <h1 class="add-new-story-title">Add New Story</h1>
           <div class="form-container">
@@ -39,8 +42,8 @@ export default class AddNewStoryPage {
               <div class="photo-control">
                 <label for="photo-input" class="photo-label">Photo</label>
                 <div class="photo-upload-container">
-                  <button id="select-file" class="upload-button" type="button">
-                    Upload Image
+                  <button id="select-file" class="upload-button" type="button" aria-label="Unggah Foto">
+                    Unggah Foto
                   </button>
                   <div class="photo-input-container">
                     <input
@@ -53,8 +56,8 @@ export default class AddNewStoryPage {
                       aria-describedby="Select a photo for your story"
                     />
                   </div>
-                  <button id="open-camera" class="camera-button" type="button">
-                    Open Camera
+                  <button id="open-camera" class="camera-button" type="button" aria-label="Buka Kamera">
+                    Buka Kamera
                   </button>
                 </div>
 
@@ -65,7 +68,7 @@ export default class AddNewStoryPage {
 
                   <div class="camera-tools">
                     <select id="camera-select" class="camera-select"></select>
-                    <button id="camera-button" class="capture-button" type="button">Capture</button>
+                    <button id="camera-button" class="capture-button" type="button" aria-label="Ambil Gambar">Ambil gambar</button>
                   </div>
                 </div>
 
@@ -90,7 +93,7 @@ export default class AddNewStoryPage {
 
               <div class="form-buttons-container">
                 <div id="submit-button-container">
-                  <button class="submit-button" type="submit">Buat Cerita</button>
+                  <button class="submit-button" type="submit" aria-label="Buat Cerita">Buat Cerita</button>
                 </div>
               </div>
             </form>
@@ -102,6 +105,11 @@ export default class AddNewStoryPage {
 
   // Dijalankan setelah halaman dirender
   async afterRender() {
+    const backButton = document.getElementById("button-back");
+    backButton.addEventListener("click", () => {
+      window.history.back();
+    });
+
     this.#presenter = new AddNewStoryPresenter({
       view: this,
       model: StoryAPI,
@@ -306,7 +314,7 @@ export default class AddNewStoryPage {
   // Menyembunyikan loading setelah tombol submit selesai
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-        <button class="submit-button" type="submit">Buat Cerita</button>
+        <button class="submit-button" type="submit" aria-label="Buat Cerita">Buat Cerita</button>
       `;
   }
 }

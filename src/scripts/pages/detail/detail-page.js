@@ -11,7 +11,7 @@ export default class DetailPage {
     return `
       <section class="container">
         <div class ="detail-page">
-            <button class="back-button" id="back-button">
+            <button class="button-back" id="button-back" aria-label="Kembali Ke Halaman Sebelumnya">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
             <div class="story-detail"></div>
@@ -21,7 +21,7 @@ export default class DetailPage {
   }
 
   async afterRender() {
-    const backButton = document.getElementById("back-button");
+    const backButton = document.getElementById("button-back");
     backButton.addEventListener("click", () => {
       window.history.back();
     });

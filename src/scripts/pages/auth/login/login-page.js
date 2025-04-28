@@ -33,7 +33,7 @@ export default class LoginPage {
           
             <div class="form-buttons-container">
               <div id="submit-button-container" class="submit-button-container">
-                <button id="submit-button" class="submit-button" type="submit">Masuk</button>
+                <button id="submit-button" class="submit-button" type="submit" aria-label="Masuk">Masuk</button>
               </div>
               <p class="do-not-have-account">Belum punya akun? <a href="#/register" id="register-link" class="register-link">Daftar</a></p>
             </div>
@@ -86,7 +86,7 @@ export default class LoginPage {
   // Method untuk menampilkan tombol loading saat submit
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button id="submit-button" class="submit-button" type="submit">
+      <button id="submit-button" class="submit-button" type="submit" disabled>
         Masuk <i class="fa-solid fa-circle-notch fa-spin"></i>
       </button>
     `;
@@ -95,7 +95,7 @@ export default class LoginPage {
   // Method untuk menyembunyikan tombol loading setelah submit selesai
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-      <button id="submit-button" class="submit-button" type="submit">
+      <button id="submit-button" class="submit-button" type="submit" aria-label="Masuk">
         Masuk
       </button>
     `;
