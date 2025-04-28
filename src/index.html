@@ -14,15 +14,17 @@
     <header>
       <div class="main-header container">
         <a class="brand-name" href="#/">Dicoding Story</a>
-
+        
+        <a href="#main-content" id="skip-to-main-content">Skip to main content</a>
+        <button id="drawer-button" tabindex="0" class="drawer-button" aria-label="Main menu">☰</button>
+        
         <nav id="navigation-drawer" class="navigation-drawer">
           <ul id="nav-list" class="nav-list"></ul>
         </nav>
-
-        <button id="drawer-button" class="drawer-button" aria-label="Main menu">☰</button>
+        
       </div>
     </header>
 
-    <main id="main-content" class="main-content"></main>
+    <main id="main-content" tabindex="-1" class="main-content"></main>
   </body>
 </html>

@@ -22,7 +22,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   background-color: #222831;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -42,6 +42,23 @@ header {
   font-weight: bold;
   text-decoration: none;
   color: #eeeeee;
+}
+
+#skip-to-main-content {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #222831;
+  color: #eeeeee;
+  padding: 10px;
+  border-radius: 4px;
+  transition: top 0.3s ease;
+  z-index: 9999;
+}
+
+#skip-to-main-content:focus {
+  top: 25px;
 }
 
 /* NAVIGATION DRAWER */
@@ -79,7 +96,7 @@ header {
 .nav-list {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   gap: 15px;
 }
@@ -88,7 +105,7 @@ header {
   position: relative;
   display: inline-block;
   padding: 8px 12px;
-  color: #eeeeee;
+  color: #222831;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease, transform 0.2s ease;
@@ -407,7 +424,7 @@ header {
   text-align: center;
   z-index: 9999;
   max-width: auto;
-  width: 25%;
+  width: 75%;
 }
 
 .modal-popup p {
@@ -433,6 +450,40 @@ header {
 
 .modal-popup .button:hover {
   background-color: #007f8a;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.button-container .button-confirm {
+  background-color: #00adb5;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-container .button-confirm:hover {
+  background-color: #007f8a;
+  transform: translateY(-2px);
+}
+
+.button-container .button-cancel {
+  background-color: #c0392b;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button-container .button-cancel:hover {
+  background-color: #e74c3c;
+  transform: translateY(-2px);
 }
 
 .modal-overlay {

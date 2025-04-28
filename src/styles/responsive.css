@@ -48,52 +48,8 @@
   .drawer-button {
     display: none;
   }
-}
 
-/* Cards on smaller screens */
-@media (max-width: 768px) {
-  .container {
-    padding-inline: 16px;
-  }
-
-  .card-container .stories {
-    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-  }
-
-  .card {
-    max-width: 100%;
-  }
-}
-
-/* Card text tweak for very small devices */
-@media (max-width: 500px) {
-  .card-img {
-    height: 140px;
-  }
-
-  .card-body {
-    padding: 12px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-description {
-    font-size: 0.9rem;
-  }
-}
-
-/* Login/register padding tweak for mobile */
-@media (max-width: 600px) {
-  .register,
-  .login {
-    padding: 1.5rem;
-  }
-
-  .login-title,
-  .register-title {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+  .modal-popup {
+    width: 25%;
   }
 }
