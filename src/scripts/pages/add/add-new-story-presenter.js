@@ -34,13 +34,13 @@ export default class AddNewStoryPresenter {
   }
 
   async showMap() {
-    this.#view.showMapLoading();
+    this.#view.showLoading();
     try {
       await this.#view.setupMap();
     } catch (error) {
       this.#view.mapFailed(error.message);
     } finally {
-      this.#view.hideMapLoading();
+      this.#view.hideLoading();
     }
   }
 }

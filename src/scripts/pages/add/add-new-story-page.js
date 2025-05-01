@@ -249,25 +249,25 @@ export default class AddNewStoryPage {
     draggableMarker.on('move', (event) => {
       const coordinate = event.target.getLatLng();
       this.#map.changeCamera(coordinate);
-      this.#updateMapCoordinates(coordinate.lat, coordinate.lng);
+      this.#updateMapCoordinates(coordinate.lat, coordinate.lon);
     });
 
     // Event untuk memperbarui koordinat saat peta diklik
     this.#map.addMapEventListener('click', (event) => {
-      draggableMarker.setLatLng(event.latlng);
-      this.#map.changeCamera(event.latlng);
-      this.#updateMapCoordinates(event.latlng.lat, event.latlng.lng);
+      draggableMarker.setLatLng(event.latlon);
+      this.#map.changeCamera(event.latlon);
+      this.#updateMapCoordinates(event.latlon.lat, event.latlon.lon);
     });
   }
 
   // Memperbarui koordinat pada form
-  #updateMapCoordinates(lat, lng) {
+  #updateMapCoordinates(lat, lon) {
     this.#form.elements.namedItem('latitude').value = lat;
-    this.#form.elements.namedItem('longitude').value = lng;
+    this.#form.elements.namedItem('longitude').value = lon;
   }
 
   // Menampilkan loading saat peta sedang dimuat
-  showMapLoading() {
+  showLoading() {
     const mapLoading = document.getElementById("map-loading");
     if (mapLoading) {
       mapLoading.innerHTML = `
@@ -279,7 +279,7 @@ export default class AddNewStoryPage {
   }
 
   // Menyembunyikan loading saat peta selesai dimuat
-  hideMapLoading() {
+  hideLoading() {
     const mapLoading = document.getElementById("map-loading");
     if (mapLoading) {
       mapLoading.innerHTML = "";

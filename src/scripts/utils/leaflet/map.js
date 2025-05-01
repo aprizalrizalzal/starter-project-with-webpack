@@ -117,10 +117,10 @@ export default class Map {
 
   // Mendapatkan pusat peta saat ini.
   getCenter() {
-    const { lat, lng } = this.#map.getCenter();
+    const { lat, lon } = this.#map.getCenter();
     return {
       latitude: lat,
-      longitude: lng,
+      longitude: lon,
     };
   }
 
@@ -137,6 +137,11 @@ export default class Map {
 
   // Menambahkan marker ke peta.
   addMarker(coordinates, markerOptions = {}, popupOptions = null) {
+    if (!coordinates || coordinates[0] == null || coordinates[1] == null) {
+      console.warn("Koordinat tidak valid, marker tidak akan dibuat.");
+      return null;
+    }
+
     if (typeof markerOptions !== "object") {
       throw new Error("markerOptions harus berupa objek");
     }

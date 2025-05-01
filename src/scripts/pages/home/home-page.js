@@ -2,20 +2,29 @@ import HomePresenter from "./home-presenter";
 import * as StoryAPI from "../../data/api";
 import { generateCardList } from "../../utils/componenet/card-list";
 import modalError from "../../utils/componenet/modal-error";
+import Map from "../../utils/leaflet/map";
 
 export default class HomePage {
   #presenter = null;
+  #map = null;
 
   async render() {
     return `
+      <section>
+        <div class="stories-list-map-container">
+          <div id="map" class="stories-list-map"></div>
+        </div>
+      </section>
+
       <section class="container">
         <h1 class="home-title">Story</h1>
 
         <div class="card-container">
           <div id="card-list"></div>
+          <div id="loading"></div>
         </div>
-        <div id="loading"></div>
       </section>
+
     `;
   }
 
@@ -35,6 +44,15 @@ export default class HomePage {
     }
 
     const html = stories.reduce((accumulator, story) => {
+      if (this.#map) {
+
+        const coordinate = [story.lat, story.lon];
+        const markerOptions = { alt: story.name };
+        const popupOptions = { content: story.name };
+
+        this.#map.addMarker(coordinate, markerOptions, popupOptions);
+      }
+
       return accumulator.concat(
         generateCardList({
           ...story,
@@ -47,15 +65,22 @@ export default class HomePage {
     `;
   }
 
+  async setupMap() {
+    this.#map = await Map.build('#map', {
+      zoom: 10,
+      locate: true,
+    });
+  }
+
   storiesListError(message) {
-      modalError(message + ". Silahkan Masuk untuk melihat cerita");
+      modalError(message);
   }
 
   // Menampilkan loading saat peta sedang dimuat
   showLoading() {
-    const mapLoading = document.getElementById("loading");
-    if (mapLoading) {
-      mapLoading.innerHTML = `
+    const loading = document.getElementById("loading");
+    if (loading) {
+      loading.innerHTML = `
         <div class="loading-spinner">
           <i class="fa-solid fa-circle-notch fa-spin"></i> Loading...
         </div>
@@ -65,9 +90,9 @@ export default class HomePage {
 
   // Menyembunyikan loading saat peta selesai dimuat
   hideLoading() {
-    const mapLoading = document.getElementById("loading");
-    if (mapLoading) {
-      mapLoading.innerHTML = "";
+    const loading = document.getElementById("loading");
+    if (loading) {
+      loading.innerHTML = "";
     }
   }
 }

@@ -163,12 +163,27 @@ header {
 
 /* MAIN CONTENT */
 .main-content {
-  padding-top: 110px;
+  padding-top: 90px;
 }
 
 .home-title {
   width: 100%;
   text-align: left;
+}
+
+.stories-list-map-container,
+.stories-list-map {
+  height: 600px;
+}
+
+.stories-list-map-container{
+  position: relative;
+  margin-bottom: 30px;
+
+}
+
+.stories-list-map-container {
+  background-color: darkgray;
 }
 
 .button-back {
