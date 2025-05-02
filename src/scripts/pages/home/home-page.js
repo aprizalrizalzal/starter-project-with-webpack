@@ -11,8 +11,8 @@ export default class HomePage {
   async render() {
     return `
       <section>
-        <div class="stories-list-map-container">
-          <div id="map" class="stories-list-map"></div>
+        <div class="map-container">
+          <div id="map" class="list-map"></div>
         </div>
       </section>
 
@@ -21,10 +21,10 @@ export default class HomePage {
 
         <div class="card-container">
           <div id="card-list"></div>
-          <div id="loading"></div>
         </div>
       </section>
-
+          
+      <div id="loading"></div>
     `;
   }
 
@@ -50,6 +50,7 @@ export default class HomePage {
         const markerOptions = { alt: story.name };
         const popupOptions = { content: story.name };
 
+      this.#map.changeCamera(coordinate);
         this.#map.addMarker(coordinate, markerOptions, popupOptions);
       }
 
@@ -68,7 +69,6 @@ export default class HomePage {
   async setupMap() {
     this.#map = await Map.build('#map', {
       zoom: 10,
-      locate: true,
     });
   }
 
@@ -76,7 +76,7 @@ export default class HomePage {
       modalError(message);
   }
 
-  // Menampilkan loading saat peta sedang dimuat
+  // Menampilkan loading saat sedang dimuat
   showLoading() {
     const loading = document.getElementById("loading");
     if (loading) {
@@ -88,7 +88,7 @@ export default class HomePage {
     }
   }
 
-  // Menyembunyikan loading saat peta selesai dimuat
+  // Menyembunyikan loading saat selesai dimuat
   hideLoading() {
     const loading = document.getElementById("loading");
     if (loading) {

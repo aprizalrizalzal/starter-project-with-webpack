@@ -11,9 +11,22 @@ export default class DetailPresenter {
         this.#model = model;
     }
 
+    async showStoryDetailMap() {
+        this.#view.showLoading();
+        try {
+          await this.#view.setupMap();
+        } catch (error) {
+          console.error('showStoryDetailMap: error:', error);
+        } finally {
+          this.#view.hideLoading();
+        }
+      }
+
     async showStoriesDetail() {
         this.#view.showLoading();
         try {
+            await this.showStoryDetailMap();
+
             const response = await this.#model.getStoriesById(this.#storyId);
 
             if (!response.ok) {

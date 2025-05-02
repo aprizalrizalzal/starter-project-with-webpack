@@ -82,7 +82,7 @@ export default class AddNewStoryPage {
                 <div class="map-container">
                   <div class="map-location-container">
                     <div id="map" class="map"></div>
-                    <div id="map-loading"></div>
+                    <div id="loading"></div>
                   </div>
                   <div class="location-input-container">
                     <input type="number" name="latitude" value="" disabled>
@@ -129,8 +129,8 @@ export default class AddNewStoryPage {
       const data = {
         description: this.#form.elements.namedItem("description").value,
         photo: this.#takePhoto ? [this.#takePhoto.blob] : [],
-        lat: this.#form.elements.namedItem('latitude').value,
-        lon: this.#form.elements.namedItem('longitude').value,
+        lat: this.#form.elements.namedItem("latitude").value,
+        lon: this.#form.elements.namedItem("longitude").value,
       };
 
       await this.#presenter.postNewStory(data);
@@ -141,22 +141,24 @@ export default class AddNewStoryPage {
     const cameraContainer = document.getElementById("camera-container");
 
     // Event untuk membuka/menutup kamera
-    document.getElementById("open-camera").addEventListener("click", async (event) => {
-      cameraContainer.classList.toggle("show-camera");
+    document
+      .getElementById("open-camera")
+      .addEventListener("click", async (event) => {
+        cameraContainer.classList.toggle("show-camera");
 
-      this.#cameraOpen = cameraContainer.classList.contains("show-camera");
-      if (this.#cameraOpen) {
-        cameraContainer.style.display = "block";
-        event.currentTarget.textContent = "Close Camera";
-        this.#setupCamera();
-        this.#camera.launch();
-        return;
-      }
+        this.#cameraOpen = cameraContainer.classList.contains("show-camera");
+        if (this.#cameraOpen) {
+          cameraContainer.style.display = "block";
+          event.currentTarget.textContent = "Close Camera";
+          this.#setupCamera();
+          this.#camera.launch();
+          return;
+        }
 
-      event.currentTarget.textContent = "Open Camera";
-      cameraContainer.style.display = "none";
-      this.#camera.stop();
-    });
+        event.currentTarget.textContent = "Open Camera";
+        cameraContainer.style.display = "none";
+        this.#camera.stop();
+      });
 
     // Event untuk memilih file foto
     if (selectFileButton && photoInput) {
@@ -232,28 +234,34 @@ export default class AddNewStoryPage {
 
   // Mengatur peta
   async setupMap() {
-    this.#map = await Map.build('#map', {
+    this.#map = await Map.build("#map", {
       zoom: 15,
       locate: true,
     });
 
     const centerCoordinates = this.#map.getCenter();
 
-    this.#updateMapCoordinates(centerCoordinates.latitude, centerCoordinates.longitude);
+    this.#updateMapCoordinates(
+      centerCoordinates.latitude,
+      centerCoordinates.longitude
+    );
 
-    const draggableMarker = this.#map.addMarker([centerCoordinates.latitude, centerCoordinates.longitude], {
-      draggable: true,
-    });
+    const draggableMarker = this.#map.addMarker(
+      [centerCoordinates.latitude, centerCoordinates.longitude],
+      {
+        draggable: true,
+      }
+    );
 
     // Event untuk memperbarui koordinat saat marker dipindahkan
-    draggableMarker.on('move', (event) => {
+    draggableMarker.on("move", (event) => {
       const coordinate = event.target.getLatLng();
       this.#map.changeCamera(coordinate);
       this.#updateMapCoordinates(coordinate.lat, coordinate.lon);
     });
 
     // Event untuk memperbarui koordinat saat peta diklik
-    this.#map.addMapEventListener('click', (event) => {
+    this.#map.addMapEventListener("click", (event) => {
       draggableMarker.setLatLng(event.latlon);
       this.#map.changeCamera(event.latlon);
       this.#updateMapCoordinates(event.latlon.lat, event.latlon.lon);
@@ -262,15 +270,15 @@ export default class AddNewStoryPage {
 
   // Memperbarui koordinat pada form
   #updateMapCoordinates(lat, lon) {
-    this.#form.elements.namedItem('latitude').value = lat;
-    this.#form.elements.namedItem('longitude').value = lon;
+    this.#form.elements.namedItem("latitude").value = lat;
+    this.#form.elements.namedItem("longitude").value = lon;
   }
 
   // Menampilkan loading saat peta sedang dimuat
   showLoading() {
-    const mapLoading = document.getElementById("map-loading");
-    if (mapLoading) {
-      mapLoading.innerHTML = `
+    const loading = document.getElementById("loading");
+    if (loading) {
+      loading.innerHTML = `
         <div class="loading-spinner">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
         </div>
@@ -280,9 +288,9 @@ export default class AddNewStoryPage {
 
   // Menyembunyikan loading saat peta selesai dimuat
   hideLoading() {
-    const mapLoading = document.getElementById("map-loading");
-    if (mapLoading) {
-      mapLoading.innerHTML = "";
+    const loading = document.getElementById("loading");
+    if (loading) {
+      loading.innerHTML = "";
     }
   }
 

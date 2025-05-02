@@ -107,6 +107,11 @@ export default class Map {
 
   // Mengubah tampilan kamera pada peta.
   changeCamera(coordinate, zoomLevel = null) {
+    if (!coordinate || coordinate[0] == null || coordinate[1] == null) {
+      console.error("changeCamera: Lokasi tidak ada.");
+      return;
+    }
+
     if (!zoomLevel) {
       this.#map.setView(latLng(coordinate), this.#zoom);
       return;
@@ -117,10 +122,10 @@ export default class Map {
 
   // Mendapatkan pusat peta saat ini.
   getCenter() {
-    const { lat, lon } = this.#map.getCenter();
+    const { lat, lng } = this.#map.getCenter();
     return {
       latitude: lat,
-      longitude: lon,
+      longitude: lng,
     };
   }
 

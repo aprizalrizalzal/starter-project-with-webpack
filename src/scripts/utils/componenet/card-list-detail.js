@@ -1,6 +1,9 @@
 export function generateCardListDetail(story) {
     return `
-      <img class="story-detail-img" src="${story.photoUrl}" alt="${story.name}" />
+      <div>
+        <img src="${story.photoUrl}" alt="${story.name}" class="detail-img" loading="lazy" />
+      </div>
+      <hr />
       <div class="story-detail-content">
         <h1 class="story-detail-title">${story.name}</h1>
         <p class="story-detail-description">${story.description}</p>

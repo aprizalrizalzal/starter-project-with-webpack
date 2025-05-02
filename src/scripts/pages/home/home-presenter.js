@@ -9,12 +9,12 @@ export default class HomePresenter {
     this.#model = model;
   }
 
-  async showStoriesListMap() {
+  async fetchAllStoriesMap() {
     this.#view.showLoading();
     try {
       await this.#view.setupMap();
     } catch (error) {
-      console.error('showStoriesListMap: error:', error);
+      console.error('fetchAllStoriesMap: error:', error);
     } finally {
       this.#view.hideLoading();
     }
@@ -23,7 +23,7 @@ export default class HomePresenter {
   async fetchAllStories() {
     this.#view.showLoading();
     try {
-      await this.showStoriesListMap();
+      await this.fetchAllStoriesMap();
 
       const response = await this.#model.getAllStories();
 
