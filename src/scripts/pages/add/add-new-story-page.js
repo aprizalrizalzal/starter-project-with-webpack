@@ -261,6 +261,7 @@ export default class AddNewStoryPage {
     });
 
     // Event untuk memperbarui koordinat saat peta diklik
+    // Menggunakan event listener untuk menghindari masalah dengan Leaflet
     this.#map.addMapEventListener("click", (event) => {
       draggableMarker.setLatLng(event.latlon);
       this.#map.changeCamera(event.latlon);
