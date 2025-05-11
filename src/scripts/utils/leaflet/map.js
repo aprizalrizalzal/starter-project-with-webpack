@@ -107,7 +107,7 @@ export default class Map {
 
   // Mengubah tampilan kamera pada peta.
   changeCamera(coordinate, zoomLevel = null) {
-    if (!coordinate || coordinate[0] == null || coordinate[1] == null) {
+    if (!coordinate) {
       console.error("changeCamera: Lokasi tidak ada.");
       return;
     }

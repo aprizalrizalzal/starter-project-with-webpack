@@ -257,22 +257,21 @@ export default class AddNewStoryPage {
     draggableMarker.on("move", (event) => {
       const coordinate = event.target.getLatLng();
       this.#map.changeCamera(coordinate);
-      this.#updateMapCoordinates(coordinate.lat, coordinate.lon);
+      this.#updateMapCoordinates(coordinate.lat, coordinate.lng);
     });
 
     // Event untuk memperbarui koordinat saat peta diklik
-    // Menggunakan event listener untuk menghindari masalah dengan Leaflet
     this.#map.addMapEventListener("click", (event) => {
-      draggableMarker.setLatLng(event.latlon);
-      this.#map.changeCamera(event.latlon);
-      this.#updateMapCoordinates(event.latlon.lat, event.latlon.lon);
+      draggableMarker.setLatLng(event.latlng);
+      this.#map.changeCamera(event.latlng);
+      this.#updateMapCoordinates(event.latlng.lat, event.latlng.lng);
     });
   }
 
   // Memperbarui koordinat pada form
-  #updateMapCoordinates(lat, lon) {
+  #updateMapCoordinates(lat, lng) {
     this.#form.elements.namedItem("latitude").value = lat;
-    this.#form.elements.namedItem("longitude").value = lon;
+    this.#form.elements.namedItem("longitude").value = lng;
   }
 
   // Menampilkan loading saat peta sedang dimuat
