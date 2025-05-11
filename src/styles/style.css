@@ -101,6 +101,47 @@ header {
   gap: 15px;
 }
 
+.nav-list li button {
+  position: relative;
+  display: inline-block;
+  padding: 8px 12px;
+  color: #222831;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-list li button:hover,
+.nav-list li button:focus {
+  color: #00adb5;
+  background-color: #e0f7fa;
+  outline: none;
+  transform: scale(1.05);
+}
+
+.nav-list li button:active {
+  background-color: #b2ebf2;
+}
+
+.nav-list li button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #00adb5;
+  transition: width 0.3s ease;
+}
+
+.nav-list li button:hover::after,
+.nav-list li button:focus::after {
+  width: 100%;
+}
+
 .nav-list li a {
   position: relative;
   display: inline-block;
@@ -127,7 +168,7 @@ header {
   transition: width 0.3s ease;
 }
 
-.nav-list li a#add {
+.nav-list li a#new-story {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -139,7 +180,7 @@ header {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-list li a#add:hover {
+.nav-list li a#new-story:hover {
   background-color: #007f8a;
   transform: translateY(-2px);
 }

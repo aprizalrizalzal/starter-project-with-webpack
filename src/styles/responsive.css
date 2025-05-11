@@ -16,6 +16,36 @@
     flex-direction: row;
   }
 
+  .nav-list li button {
+    display: inline-block;
+    color: #eeeeee;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font: inherit;
+    transition: color 0.2s;
+  }
+
+  .nav-list li button::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background-color: #eeeeee;
+    transition: width 0.2s;
+    margin: 0 auto;
+  }
+
+  .nav-list li button:hover {
+    color: #00adb5;
+  }
+
+  .nav-list li button:hover::after {
+    width: 100%;
+    background-color: #00adb5;
+  }
+
   .nav-list li a {
     display: inline-block;
     color: #eeeeee;
@@ -29,7 +59,7 @@
     color: #00adb5;
   }
 
-  .nav-list li a#add {
+  .nav-list li a#new-story {
     background-color: transparent;
     color: #eeeeee;
   }

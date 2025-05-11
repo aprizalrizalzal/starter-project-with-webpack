@@ -1,11 +1,17 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
+import { isServiceWorkerAvailable } from "../utils";
 import { getAccessToken, getLogout } from "../utils/auth";
 import {
   generateAuthenticatedNavList,
   generateUnauthenticatedNavList,
 } from "../utils/componenet/nav-list";
 import { transitionHelper } from "../utils/transition/helper";
+import {
+  isCurrentPushSubscriptionAvailable,
+  unsubscribe,
+  subscribe,
+} from "../utils/notification-helper";
 
 class App {
   #content = null;
@@ -124,6 +130,41 @@ class App {
     }
   }
 
+  async #setupPushNotification() {
+    const subscribeBtn = document.getElementById("subscribe-button");
+    const unsubscribeBtn = document.getElementById("unsubscribe-button");
+
+    if (!subscribeBtn || !unsubscribeBtn) return;
+
+    const isSubscribed = await isCurrentPushSubscriptionAvailable();
+
+    if (isSubscribed) {
+      subscribeBtn.style.display = "none";
+      unsubscribeBtn.style.display = "block";
+    } else {
+      subscribeBtn.style.display = "block";
+      unsubscribeBtn.style.display = "none";
+    }
+
+    const subscribeBtnClone = subscribeBtn.cloneNode(true);
+    const unsubscribeBtnClone = unsubscribeBtn.cloneNode(true);
+    
+    subscribeBtn.parentNode.replaceChild(subscribeBtnClone, subscribeBtn);
+    unsubscribeBtn.parentNode.replaceChild(unsubscribeBtnClone, unsubscribeBtn);
+
+    subscribeBtnClone.addEventListener("click", () => {
+      subscribe().finally(() => {
+        this.#setupPushNotification();
+      });
+    });
+
+    unsubscribeBtnClone.addEventListener("click", () => {
+      unsubscribe().finally(() => {
+        this.#setupPushNotification();
+      });
+    });
+  }
+
   async renderPage() {
     const url = getActiveRoute();
     const route = routes[url];
@@ -158,6 +199,10 @@ class App {
     transition.updateCallbackDone.then(() => {
       scrollTo({ top: 0, behavior: "instant" });
       this.#setupNavigationList();
+
+      if (isServiceWorkerAvailable()) {
+        this.#setupPushNotification();
+      }
     });
   }
 }

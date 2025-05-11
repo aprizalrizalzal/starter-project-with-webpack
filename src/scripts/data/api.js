@@ -6,6 +6,8 @@ const ENDPOINTS = {
   LOGIN: `${CONFIG.BASE_URL}/login`,
   STORIES: `${CONFIG.BASE_URL}/stories`,
   STORIES_DETAIL: (id)=> `${CONFIG.BASE_URL}/stories/${id}`,
+  SUBSCRIBE: `${CONFIG.BASE_URL}/notifications/subscribe`,
+  UNSUBSCRIBE: `${CONFIG.BASE_URL}/notifications/subscribe`,
 };
 
 export async function storeRegistered({ name, email, password }) {
@@ -84,6 +86,49 @@ export async function storeAddNewStory({ description, photo, lat, lon }) {
   });
   const json = await fetchResponse.json();
 
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
+}
+
+export async function subscribePushNotification({ endpoint, keys: { p256dh, auth } }) {
+  const accessToken = getAccessToken();
+  const data = JSON.stringify({
+    endpoint,
+    keys: { p256dh, auth },
+  });
+ 
+  const fetchResponse = await fetch(ENDPOINTS.SUBSCRIBE, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: data,
+  });
+  const json = await fetchResponse.json();
+ 
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
+}
+ 
+export async function unsubscribePushNotification({ endpoint }) {
+  const accessToken = getAccessToken();
+  const data = JSON.stringify({ endpoint });
+ 
+  const fetchResponse = await fetch(ENDPOINTS.UNSUBSCRIBE, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: data,
+  });
+  const json = await fetchResponse.json();
+ 
   return {
     ...json,
     ok: fetchResponse.ok,
