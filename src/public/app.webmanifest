@@ -1,7 +1,7 @@
 {
-  "id": "/?source=pwa#/",
+  "id": "/",
   "scope": "/",
-  "start_url": "/?source=pwa#/",
+  "start_url": "/",
   "name": "Dicoding Story App",
   "short_name": "Dicoding Story",
   "description": "Aplikasi ini adalah aplikasi yang digunakan untuk berbagi cerita dan pengalaman.",
@@ -12,20 +12,20 @@
     {
       "src": "images/logo.png",
       "type": "image/png",
-      "sizes": "48x48",
+      "sizes": "512x512",
       "purpose": "any"
     }
   ],
   "screenshots": [
     {
       "src": "images/screenshots/dicoding-story-des.png",
-      "sizes": "1920x1043",
+      "sizes": "1360x765",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
       "src": "images/screenshots/dicoding-story-mob.png",
-      "sizes": "1080x2280",
+      "sizes": "286x508",
       "type": "image/png",
       "form_factor": "narrow"
     }
@@ -35,7 +35,7 @@
       "name": "Cerita Baru",
       "short_name": "Baru",
       "description": "Membuat cerita baru.",
-      "url": "/?source=pwa#/add",
+      "url": "/add",
       "icons": [
         {
           "src": "images/icons/add.png",
