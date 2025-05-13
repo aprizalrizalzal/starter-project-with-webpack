@@ -1,0 +1,48 @@
+{
+  "id": "/#/",
+  "start_url": "/#/",
+  "scope": "/",
+  "name": "Dicoding Story App",
+  "short_name": "Dicoding Story",
+  "description": "Aplikasi ini adalah aplikasi yang digunakan untuk berbagi cerita dan pengalaman.",
+  "display": "standalone",
+  "background_color": "#FEFEFE",
+  "theme_color": "#222831",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshots/dicoding-story-desktop.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "images/screenshots/dicoding-story-mobile.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+],
+"shortcuts": [
+    {
+      "name": "Cerita Baru",
+      "short_name": "Baru",
+      "description": "Membuat cerita baru.",
+      "url": "/?source=pwa#/add",
+      "icons": [
+        {
+          "src": "images/icons/add.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+    ]
+}

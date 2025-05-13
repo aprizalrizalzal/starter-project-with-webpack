@@ -153,12 +153,16 @@ class App {
     unsubscribeBtn.parentNode.replaceChild(unsubscribeBtnClone, unsubscribeBtn);
 
     subscribeBtnClone.addEventListener("click", () => {
+      console.log("subscribe button clicked");
+      
       subscribe().finally(() => {
         this.#setupPushNotification();
       });
     });
 
     unsubscribeBtnClone.addEventListener("click", () => {
+      console.log("unsubscribe button clicked");
+
       unsubscribe().finally(() => {
         this.#setupPushNotification();
       });
