@@ -114,14 +114,6 @@ header {
   transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
 }
 
-.nav-list li button:hover,
-.nav-list li button:focus {
-  color: #00adb5;
-  background-color: #e0f7fa;
-  outline: none;
-  transform: scale(1.05);
-}
-
 .nav-list li button:active {
   background-color: #b2ebf2;
 }
@@ -135,11 +127,6 @@ header {
   height: 2px;
   background-color: #00adb5;
   transition: width 0.3s ease;
-}
-
-.nav-list li button:hover::after,
-.nav-list li button:focus::after {
-  width: 100%;
 }
 
 .nav-list li a {
@@ -450,6 +437,10 @@ header {
   padding: 1.5rem;
 }
 
+#story-detail-action{
+  margin-block: 20px;
+}
+
 .story-detail-title {
   font-size: 2.2rem;
   font-weight: bold;
@@ -619,7 +610,8 @@ header {
 }
 
 .upload-button,
-.camera-button {
+.camera-button,
+.favorite-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -810,11 +802,6 @@ header {
 
   .nav-list li button:hover {
     color: #00adb5;
-  }
-
-  .nav-list li button:hover::after {
-    width: 100%;
-    background-color: #00adb5;
   }
 
   .nav-list li a {
