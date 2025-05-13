@@ -1,7 +1,7 @@
 {
-  "id": "/#/",
-  "start_url": "/#/",
+  "id": "/?source=pwa#/",
   "scope": "/",
+  "start_url": "/?source=pwa#/",
   "name": "Dicoding Story App",
   "short_name": "Dicoding Story",
   "description": "Aplikasi ini adalah aplikasi yang digunakan untuk berbagi cerita dan pengalaman.",
@@ -18,13 +18,13 @@
   ],
   "screenshots": [
     {
-      "src": "images/screenshots/dicoding-story-desktop.png",
+      "src": "images/screenshots/dicoding-story-desktop.PNG",
       "sizes": "1920x1043",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "images/screenshots/dicoding-story-mobile.png",
+      "src": "images/screenshots/dicoding-story-mobile.PNG",
       "sizes": "1080x2280",
       "type": "image/png",
       "form_factor": "narrow"
