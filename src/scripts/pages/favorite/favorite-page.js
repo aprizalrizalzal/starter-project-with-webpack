@@ -38,7 +38,14 @@ export default class FavoritePage {
 
   populateFavoriteStory(message, stories) {
     if (stories.length <= 0) {
-      alert(message);
+      console.log(message);
+      const html = `
+        <div class="empty-favorite">
+          <h2>Belum ada cerita tersimpan</h2>
+          <p>Silahkan simpan cerita yang kamu suka</p>
+        </div>
+      `;
+      document.getElementById("card-list").innerHTML = html;
       return;
     }
 
