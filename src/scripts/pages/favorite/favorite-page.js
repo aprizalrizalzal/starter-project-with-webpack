@@ -24,6 +24,10 @@ export default class FavoritePage {
   }
 
   async afterRender() {
+    const backButton = document.getElementById("button-back");
+    backButton.addEventListener("click", () => {
+      window.history.back();
+    });
     this.#presenter = new FavoritePresenter({
       view: this,
       model: Database,
