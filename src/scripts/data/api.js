@@ -56,7 +56,7 @@ export async function getAllStories() {
   };
 }
 
-export async function getStoriesById(id) {
+export async function getStoryById(id) {
   const accessToken = getAccessToken();
 
   const fetchResponse = await fetch(ENDPOINTS.STORIES_DETAIL(id), {

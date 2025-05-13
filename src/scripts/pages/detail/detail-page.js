@@ -4,6 +4,7 @@ import * as StoryAPI from "../../data/api";
 import { generateCardListDetail } from "../../utils/componenet/card-list-detail";
 import Map from "../../utils/leaflet/map";
 import modalError from "../../utils/componenet/modal-error";
+import Database from "../../data/database";
 
 export default class DetailPage {
   #presenter = null;
@@ -37,6 +38,7 @@ export default class DetailPage {
     this.#presenter = new DetailPresenter(parseActivePathname().id, {
       view: this,
       model: StoryAPI,
+      dbModel: Database,
     });
 
     this.#presenter.showStoriesDetail();
@@ -59,12 +61,56 @@ export default class DetailPage {
     document.querySelector(".story-detail").innerHTML = `
       <div class="stories">${html}</div>
     `;
+
+    this.#presenter.showSaveButton();
   }
 
   async setupMap() {
     this.#map = await Map.build("#map", {
       zoom: 10,
     });
+  }
+
+  renderSaveButton() {
+    document.getElementById(
+      "story-detail-action"
+    ).innerHTML = `<button id="favorite-save" class="favorite-button" aria-label="Tambah ke favorit"><i class="fa-solid fa-heart"></i> Tambah ke favorit</button>`;
+
+    const saveFavorite = document.getElementById("favorite-save");
+
+    saveFavorite.addEventListener("click", async () => {
+      await this.#presenter.saveStory();
+      this.#presenter.showSaveButton();
+    });
+  }
+
+  saveToFavoriteSuccessfully(message) {
+    alert(message);
+  }
+
+  saveToFavoriteFailed(message) {
+    alert(message);
+  }
+
+  renderRemoveButton() {
+    document.getElementById(
+      "story-detail-action"
+    ).innerHTML = `<button id="favorite-remove" class="favorite-button" aria-label="Tambah ke favorit"><i class="fa-solid fa-heart-crack"></i> Hapus dari Favorit</button>`;
+
+    const removeFavorite = document.getElementById("favorite-remove");
+
+    removeFavorite.addEventListener("click", async () => {
+      await this.#presenter.removeStory();
+      await this.#presenter.showSaveButton();
+    });
+  }
+
+  removeFromFavoriteSuccessfully(message) {
+    console.log(message);
+  }
+
+  removeFromFavoriteFailed(message) {
+    alert(message);
   }
 
   async storiesListError(message) {

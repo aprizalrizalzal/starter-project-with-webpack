@@ -41,11 +41,6 @@
     color: #00adb5;
   }
 
-  .nav-list li button:hover::after {
-    width: 100%;
-    background-color: #00adb5;
-  }
-
   .nav-list li a {
     display: inline-block;
     color: #eeeeee;

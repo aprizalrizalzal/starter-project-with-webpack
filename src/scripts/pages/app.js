@@ -148,13 +148,13 @@ class App {
 
     const subscribeBtnClone = subscribeBtn.cloneNode(true);
     const unsubscribeBtnClone = unsubscribeBtn.cloneNode(true);
-    
+
     subscribeBtn.parentNode.replaceChild(subscribeBtnClone, subscribeBtn);
     unsubscribeBtn.parentNode.replaceChild(unsubscribeBtnClone, unsubscribeBtn);
 
     subscribeBtnClone.addEventListener("click", () => {
       console.log("subscribe button clicked");
-      
+
       subscribe().finally(() => {
         this.#setupPushNotification();
       });
