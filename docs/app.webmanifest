@@ -1,7 +1,7 @@
 {
-  "id": "/",
+  "id": "/?source=pwa#/",
   "scope": "/",
-  "start_url": "/",
+  "start_url": "/?source=pwa#/",
   "name": "Dicoding Story App",
   "short_name": "Dicoding Story",
   "description": "Aplikasi ini adalah aplikasi yang digunakan untuk berbagi cerita dan pengalaman.",
@@ -35,7 +35,7 @@
       "name": "Cerita Baru",
       "short_name": "Baru",
       "description": "Membuat cerita baru.",
-      "url": "/add",
+      "url": "/?source=pwa#/add",
       "icons": [
         {
           "src": "images/icons/add.png",
