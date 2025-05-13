@@ -1,7 +1,7 @@
 {
-  "id": "/#/",
-  "start_url": "/#/",
+  "id": "/?source=pwa#/",
   "scope": "/",
+  "start_url": "/?source=pwa#/",
   "name": "Dicoding Story App",
   "short_name": "Dicoding Story",
   "description": "Aplikasi ini adalah aplikasi yang digunakan untuk berbagi cerita dan pengalaman.",
