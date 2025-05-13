@@ -18,19 +18,19 @@
   ],
   "screenshots": [
     {
-      "src": "images/screenshots/dicoding-story-desktop.PNG",
+      "src": "images/screenshots/dicoding-story-des.png",
       "sizes": "1920x1043",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "images/screenshots/dicoding-story-mobile.PNG",
+      "src": "images/screenshots/dicoding-story-mob.png",
       "sizes": "1080x2280",
       "type": "image/png",
       "form_factor": "narrow"
     }
-],
-"shortcuts": [
+  ],
+  "shortcuts": [
     {
       "name": "Cerita Baru",
       "short_name": "Baru",
@@ -44,5 +44,5 @@
         }
       ]
     }
-    ]
+  ]
 }
