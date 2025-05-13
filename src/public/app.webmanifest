@@ -18,14 +18,14 @@
   ],
   "screenshots": [
     {
-      "src": "images/screenshots/dicoding-story-des.png",
-      "sizes": "1360x765",
+      "src": "images/screenshots/dicoding-story-desktop.png",
+      "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "images/screenshots/dicoding-story-mob.png",
-      "sizes": "286x508",
+      "src": "images/screenshots/dicoding-story-mobile.png",
+      "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow"
     }
